@@ -1,11 +1,7 @@
+import { DesignSystemPreview } from "@/components/shared/DesignSystemPreview";
+
 function App() {
-  return (
-    <div className="flex min-h-screen items-center justify-center">
-      <h1 className="text-4xl font-bold">
-        ClientDesk
-      </h1>
-    </div>
-  )
+  return <DesignSystemPreview />;
 }
 
-export default App
+export default App;

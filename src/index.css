@@ -128,3 +128,12 @@
     @apply font-sans;
     }
 }
+
+@theme {
+  --color-clientdesk-red: #ff4d4d;
+  --color-clientdesk-mint: #4dffbc;
+  --color-clientdesk-gray: #898989;
+  --color-clientdesk-light: #d9d9d9;
+
+  --font-sidebar: "Oswald", sans-serif;
+}
