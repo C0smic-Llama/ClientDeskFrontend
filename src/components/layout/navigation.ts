@@ -40,11 +40,11 @@ export const navigationItems = [
     href: "/services",
     icon: BriefcaseBusiness,
   },
-  {
-    label: "Deliverables",
-    href: "/deliverables",
-    icon: PackageCheck,
-  },
+  // {
+  //   label: "Deliverables",
+  //   href: "/deliverables",
+  //   icon: PackageCheck,
+  // },
   {
     label: "Invoices",
     href: "/invoices",

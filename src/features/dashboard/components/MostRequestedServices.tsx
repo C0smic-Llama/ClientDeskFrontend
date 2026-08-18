@@ -1,0 +1,63 @@
+import type { DashboardRanking } from "../types/dashboard.types";
+
+interface MostRequestedServicesProps {
+  services: DashboardRanking[];
+}
+
+export default function MostRequestedServices({
+  services,
+}: MostRequestedServicesProps) {
+  if (services.length === 0) {
+    return (
+      <div className="flex h-[250px] items-center justify-center">
+        <p className="text-sm text-muted-foreground">
+          No service data available.
+        </p>
+      </div>
+    );
+  }
+
+  const maxValue = Math.max(
+    ...services.map((service) => service.value)
+  );
+
+  return (
+    <div className="space-y-5">
+      {services.map((service, index) => {
+        const percentage =
+          maxValue > 0
+            ? (service.value / maxValue) * 100
+            : 0;
+
+        return (
+          <div key={service.id} className="space-y-2">
+            <div className="flex items-center justify-between gap-4">
+              <div className="flex min-w-0 items-center gap-3">
+                <span className="w-6 text-sm font-medium text-muted-foreground">
+                  #{index + 1}
+                </span>
+
+                <span className="truncate font-medium">
+                  {service.name}
+                </span>
+              </div>
+
+              <span className="shrink-0 text-sm font-medium">
+                {service.value.toLocaleString("en-IN")}
+              </span>
+            </div>
+
+            <div className="h-2 overflow-hidden rounded-full bg-muted">
+              <div
+                className="h-full rounded-full bg-primary transition-all"
+                style={{
+                  width: `${percentage}%`,
+                }}
+              />
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
