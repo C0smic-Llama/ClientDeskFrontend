@@ -12,10 +12,7 @@ import {
 export function Sidebar() {
   const { user } = useAuth();
 
-  const canAccess = (
-    item: NavigationItem,
-    role?: UserRole,
-  ) => {
+  const canAccess = (item: NavigationItem, role?: UserRole) => {
     if (!item.roles) return true;
     if (!role) return false;
 
@@ -23,14 +20,12 @@ export function Sidebar() {
   };
 
   return (
-    <aside className="hidden w-64 shrink-0 border-r border-clientdesk-light bg-white lg:flex lg:flex-col">
+    <aside className="fixed left-0 top-0 z-40 hidden h-screen w-64 shrink-0 border-r border-clientdesk-light bg-white lg:flex lg:flex-col">
+      {" "}
       {/* Logo */}
       <div className="flex h-16 items-center border-b border-clientdesk-light px-6">
-        <span className="text-2xl font-bold tracking-tight">
-          ClientDesk
-        </span>
+        <span className="text-2xl font-bold tracking-tight">ClientDesk</span>
       </div>
-
       {/* Main Navigation */}
       <nav className="flex-1 space-y-1 overflow-y-auto p-4">
         {navigationItems
@@ -59,7 +54,6 @@ export function Sidebar() {
             );
           })}
       </nav>
-
       {/* Secondary Navigation */}
       <div className="border-t border-clientdesk-light p-4">
         {secondaryNavigationItems

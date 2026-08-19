@@ -90,12 +90,13 @@ export function ServicesPage() {
           </p>
         </div>
 
-        <Button asChild>
-          <Link to="/services/new">
-            <Plus className="mr-2 size-4" />
-            Add Service
-          </Link>
-        </Button>
+        <Link
+          to="/services/new"
+          className="inline-flex flex-row items-center gap-2 rounded-lg bg-primary px-2.5 py-2 text-sm font-medium text-primary-foreground transition-all hover:bg-primary/80"
+        >
+          <Plus className="size-4 shrink-0" />
+          <span>Add Service</span>
+        </Link>
       </div>
 
       {/* Search and filters */}

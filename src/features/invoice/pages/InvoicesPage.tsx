@@ -63,12 +63,13 @@ export function InvoicesPage() {
           </p>
         </div>
 
-        <Button asChild>
-          <Link to="/invoices/new">
-            <Plus className="mr-2 size-4" />
-            Create Invoice
-          </Link>
-        </Button>
+        <Link
+          to="/invoices/new"
+          className="inline-flex flex-row items-center gap-2 rounded-lg bg-primary px-2.5 py-2 text-sm font-medium text-primary-foreground transition-all hover:bg-primary/80"
+        >
+          <Plus className="size-4 shrink-0" />
+          <span>Create Invoice</span>
+        </Link>
       </div>
 
       {/* Status filter */}

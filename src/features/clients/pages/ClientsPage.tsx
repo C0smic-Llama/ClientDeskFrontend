@@ -54,12 +54,13 @@ export function ClientsPage() {
           </p>
         </div>
 
-        <Button asChild>
-          <Link to="/clients/new">
-            <Plus className="mr-2 size-4" />
-            Add Client
-          </Link>
-        </Button>
+        <Link
+          to="/clients/new"
+          className="inline-flex flex-row items-center gap-2 rounded-lg bg-primary px-2.5 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/80"
+        >
+          <Plus className="size-4 shrink-0" />
+          <span>Add Client</span>
+        </Link>
       </div>
 
       {/* Search and filters */}
@@ -102,12 +103,13 @@ export function ClientsPage() {
           </p>
 
           {!search && !status && (
-            <Button asChild className="mt-5">
-              <Link to="/clients/new">
-                <Plus className="mr-2 size-4" />
-                Add your first client
-              </Link>
-            </Button>
+            <Link
+              to="/clients/new"
+              className="mt-5 inline-flex flex-row items-center gap-2 rounded-lg bg-primary px-2.5 py-2 text-sm font-medium text-primary-foreground transition-all hover:bg-primary/80"
+            >
+              <Plus className="size-4 shrink-0" />
+              <span>Add your first client</span>
+            </Link>
           )}
         </div>
       )}

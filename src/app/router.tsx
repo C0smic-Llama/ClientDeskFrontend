@@ -4,7 +4,6 @@ import { AppLayout } from "@/components/layout/AppLayout";
 import { LoginPage } from "@/features/auth/pages/LoginPage";
 import { ClientsPage } from "@/features/clients/pages/ClientsPage";
 import { ProtectedRoute } from "@/routes/ProtectedRoute";
-import api from "@/lib/axios";
 import { CreateClientPage } from "@/features/clients/pages/CreateClientPage";
 import { ClientDetailsPage } from "@/features/clients/pages/ClientDetailsPage";
 import { EditClientPage } from "@/features/clients/pages/EditClientPage";
@@ -26,6 +25,9 @@ import PaymentDetailsPage from "@/features/payments/pages/PaymentDetailsPage";
 import EditPayment from "@/features/payments/pages/EditPayment";
 import PaymentsPage from "@/features/payments/pages/PaymentsPage";
 import DashboardPage from "@/features/dashboard/pages/DashboardPage";
+import CreateUserPage from "@/features/users/pages/CreateUserPage";
+import EditUserPage from "@/features/users/pages/EditUserPage";
+import UsersPage from "@/features/users/pages/UsersPage";
 
 
 
@@ -33,9 +35,6 @@ function DeliverablesPage() {
   return <h1 className="text-2xl font-semibold">Deliverables</h1>;
 }
 
-function UsersPage() {
-  return <h1 className="text-2xl font-semibold">Users</h1>;
-}
 
 function SettingsPage() {
   return <h1 className="text-2xl font-semibold">Settings</h1>;
@@ -153,6 +152,14 @@ export const router = createBrowserRouter([
           {
             path: "users",
             element: <UsersPage />,
+          },
+          {
+            path: "users/new",
+            element: <CreateUserPage />,
+          },
+          {
+            path: "users/:id/edit",
+            element: <EditUserPage />,
           },
           {
             path: "settings",

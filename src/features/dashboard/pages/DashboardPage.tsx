@@ -31,33 +31,28 @@ export default function DashboardPage() {
     });
 
   if (isLoading) {
-  return (
-    <div className="space-y-6 p-6">
+    return (
+      <div className="space-y-6 p-6">
+        <div>
+          <Skeleton className="h-8 w-40" />
+          <Skeleton className="mt-2 h-4 w-64" />
+        </div>
 
-      <div>
-        <Skeleton className="h-8 w-40" />
-        <Skeleton className="mt-2 h-4 w-64" />
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          {Array.from({ length: 4 }).map((_, index) => (
+            <Skeleton key={index} className="h-32 rounded-xl" />
+          ))}
+        </div>
+
+        <div className="grid gap-6 lg:grid-cols-2">
+          <Skeleton className="h-[380px] rounded-xl" />
+          <Skeleton className="h-[380px] rounded-xl" />
+        </div>
+
+        <Skeleton className="h-[350px] rounded-xl" />
       </div>
-
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {Array.from({ length: 4 }).map((_, index) => (
-          <Skeleton
-            key={index}
-            className="h-32 rounded-xl"
-          />
-        ))}
-      </div>
-
-      <div className="grid gap-6 lg:grid-cols-2">
-        <Skeleton className="h-[380px] rounded-xl" />
-        <Skeleton className="h-[380px] rounded-xl" />
-      </div>
-
-      <Skeleton className="h-[350px] rounded-xl" />
-
-    </div>
-  );
-}
+    );
+  }
 
   if (isError || !summary) {
     return (
@@ -84,12 +79,14 @@ export default function DashboardPage() {
           title="Total Clients"
           value={summary.totalClients}
           icon={Users}
+          href="/clients"
         />
 
         <DashboardStatCard
           title="Total Projects"
           value={summary.totalProjects}
           icon={FolderKanban}
+          href="/projects"
         />
 
         <DashboardStatCard
@@ -111,30 +108,16 @@ export default function DashboardPage() {
           title="Active Projects"
           value={summary.activeProjects}
           icon={BriefcaseBusiness}
+          href="/projects"
         />
 
         <DashboardStatCard
           title="Completed Projects"
           value={summary.completedProjects}
           icon={CheckCircle2}
+          href="/projects"
         />
       </div>
-
-      {/* Invoice Statistics */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Invoice Overview</CardTitle>
-        </CardHeader>
-
-        <CardContent>
-          <InvoiceStatusChart
-            paid={summary.paidInvoices}
-            partiallyPaid={summary.partiallyPaidInvoices}
-            overdue={summary.overdueInvoices}
-          />
-        </CardContent>
-      </Card>
-
       {/* Revenue + Rankings */}
       <div className="grid gap-6 lg:grid-cols-2">
         {/* Revenue */}
@@ -158,6 +141,21 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Invoice Statistics */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Invoice Overview</CardTitle>
+        </CardHeader>
+
+        <CardContent>
+          <InvoiceStatusChart
+            paid={summary.paidInvoices}
+            partiallyPaid={summary.partiallyPaidInvoices}
+            overdue={summary.overdueInvoices}
+          />
+        </CardContent>
+      </Card>
 
       {/* Most Requested Services */}
       <Card>

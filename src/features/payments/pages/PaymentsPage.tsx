@@ -81,7 +81,7 @@ export default function PaymentsPage() {
   }
 
   return (
-    <div className="space-y-6 p-6">
+    <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -92,171 +92,142 @@ export default function PaymentsPage() {
           </p>
         </div>
 
-        <Button asChild>
+        {/* <Button asChild>
           <Link to="/payments/create">
             <Plus className="mr-2 size-4" />
             Record Payment
           </Link>
-        </Button>
+        </Button> */}
       </div>
 
       {/* Table */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Payment Records</CardTitle>
-        </CardHeader>
+      <div className="overflow-hidden rounded-lg border border-clientdesk-light bg-white">
+        <div className="relative overflow-x-auto">
+          <Table className="w-full">
+            <TableHeader>
+              <TableRow>
+                <TableHead>Receipt No.</TableHead>
+                <TableHead>Invoice</TableHead>
+                <TableHead>Client</TableHead>
+                <TableHead>Project</TableHead>
+                <TableHead>Amount</TableHead>
+                <TableHead>Date</TableHead>
+                <TableHead>Method</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead className="text-right">Actions</TableHead>
+              </TableRow>
+            </TableHeader>
 
-        <CardContent>
-          <div className="overflow-x-auto">
-            <Table>
-              <TableHeader>
+            <TableBody>
+              {payments.length === 0 ? (
                 <TableRow>
-                  <TableHead>Receipt No.</TableHead>
-
-                  <TableHead>Invoice</TableHead>
-
-                  <TableHead>Client</TableHead>
-
-                  <TableHead>Project</TableHead>
-
-                  <TableHead>Amount</TableHead>
-
-                  <TableHead>Date</TableHead>
-
-                  <TableHead>Method</TableHead>
-
-                  <TableHead>Status</TableHead>
-
-                  <TableHead className="text-right">Actions</TableHead>
+                  <TableCell colSpan={9} className="h-24 text-center">
+                    No payments found.
+                  </TableCell>
                 </TableRow>
-              </TableHeader>
+              ) : (
+                payments.map((payment) => (
+                  <TableRow key={payment.id}>
+                    <TableCell className="font-medium">
+                      {payment.receiptNumber}
+                    </TableCell>
 
-              <TableBody>
-                {payments.length === 0 ? (
-                  <TableRow>
-                    <TableCell colSpan={9} className="h-24 text-center">
-                      No payments found.
+                    <TableCell>
+                      <Link
+                        to={`/invoices/${payment.invoiceId}`}
+                        className="text-primary hover:underline"
+                      >
+                        {payment.invoiceNumber}
+                      </Link>
+                    </TableCell>
+
+                    <TableCell>{payment.clientName}</TableCell>
+
+                    <TableCell>{payment.projectName}</TableCell>
+
+                    <TableCell>₹{formatAmount(payment.amount)}</TableCell>
+
+                    <TableCell>{payment.paymentDate}</TableCell>
+
+                    <TableCell>{payment.paymentMethod}</TableCell>
+
+                    <TableCell>
+                      <span className="inline-flex rounded-full bg-muted px-2.5 py-1 text-xs font-medium">
+                        {payment.status}
+                      </span>
+                    </TableCell>
+
+                    <TableCell>
+                      <div className="flex justify-end gap-1">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          title="View payment"
+                          onClick={() => navigate(`/payments/${payment.id}`)}
+                        >
+                          <Eye className="size-4" />
+                        </Button>
+
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          title="Edit payment"
+                          onClick={() =>
+                            navigate(`/payments/${payment.id}/edit`)
+                          }
+                        >
+                          <Edit className="size-4" />
+                        </Button>
+
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          title="Delete payment"
+                          className="text-destructive hover:text-destructive"
+                          onClick={() => setPaymentToDelete(payment.id)}
+                        >
+                          <Trash2 className="size-4" />
+                        </Button>
+                      </div>
                     </TableCell>
                   </TableRow>
-                ) : (
-                  payments.map((payment) => (
-                    <TableRow key={payment.id}>
-                      {/* Receipt */}
-                      <TableCell className="font-medium">
-                        {payment.receiptNumber}
-                      </TableCell>
+                ))
+              )}
+            </TableBody>
+          </Table>
+        </div>
 
-                      {/* Invoice */}
-                      <TableCell>
-                        <Link
-                          to={`/invoices/${payment.invoiceId}`}
-                          className="text-primary hover:underline"
-                        >
-                          {payment.invoiceNumber}
-                        </Link>
-                      </TableCell>
+        {/* Pagination */}
+        <div className="flex flex-col gap-3 border-t border-clientdesk-light px-6 py-4 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-sm text-clientdesk-gray">
+            Page {page + 1} of {data?.totalPages ?? 1}
+          </p>
 
-                      {/* Client */}
-                      <TableCell>{payment.clientName}</TableCell>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={page === 0 || !data || data.first}
+              onClick={() => setPage((current) => Math.max(current - 1, 0))}
+            >
+              Previous
+            </Button>
 
-                      {/* Project */}
-                      <TableCell>{payment.projectName}</TableCell>
-
-                      {/* Amount */}
-                      <TableCell>₹{formatAmount(payment.amount)}</TableCell>
-
-                      {/* Date */}
-                      <TableCell>{payment.paymentDate}</TableCell>
-
-                      {/* Payment method */}
-                      <TableCell>{payment.paymentMethod}</TableCell>
-
-                      {/* Status */}
-                      <TableCell>
-                        <span className="inline-flex rounded-full bg-muted px-2.5 py-1 text-xs font-medium">
-                          {payment.status}
-                        </span>
-                      </TableCell>
-
-                      {/* Actions */}
-                      <TableCell>
-                        <div className="flex justify-end gap-1">
-                          {/* View */}
-                          <Button
-                            asChild
-                            variant="ghost"
-                            size="icon"
-                            title="View payment"
-                          >
-                            <Link
-                              to={`/payments/${payment.id}`}
-                              aria-label={`View ${payment.receiptNumber}`}
-                            >
-                              <Eye className="size-4" />
-                            </Link>
-                          </Button>
-
-                          {/* Edit */}
-                          <Button
-                            asChild
-                            variant="ghost"
-                            size="icon"
-                            title="Edit payment"
-                          >
-                            <Link
-                              to={`/payments/${payment.id}/edit`}
-                              aria-label={`Edit ${payment.receiptNumber}`}
-                            >
-                              <Edit className="size-4" />
-                            </Link>
-                          </Button>
-
-                          {/* Delete */}
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            title="Delete payment"
-                            className="text-destructive hover:text-destructive"
-                            onClick={() => setPaymentToDelete(payment.id)}
-                          >
-                            <Trash2 className="size-4" />
-                          </Button>
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  ))
-                )}
-              </TableBody>
-            </Table>
-          </div>
-
-          {/* Pagination */}
-          <div className="mt-4 flex items-center justify-between">
-            <p className="text-sm text-muted-foreground">
+            <span className="px-2 text-sm text-clientdesk-gray">
               Page {page + 1} of {data?.totalPages ?? 1}
-            </p>
+            </span>
 
-            <div className="flex gap-2">
-              <Button
-                variant="outline"
-                disabled={page === 0 || !data || data.first}
-                onClick={() => setPage((current) => Math.max(current - 1, 0))}
-              >
-                Previous
-              </Button>
-
-              <Button
-                variant="outline"
-                disabled={!data || data.last}
-                onClick={() => setPage((current) => current + 1)}
-              >
-                Next
-              </Button>
-            </div>
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={!data || data.last}
+              onClick={() => setPage((current) => current + 1)}
+            >
+              Next
+            </Button>
           </div>
-        </CardContent>
-      </Card>
-
+        </div>
+      </div>
       {/* Delete confirmation */}
       <AlertDialog
         open={paymentToDelete !== null}

@@ -61,12 +61,13 @@ export function ProjectsPage() {
           </p>
         </div>
 
-        <Button asChild>
-          <Link to="/projects/new">
-            <Plus className="mr-2 size-4" />
-            Add Project
-          </Link>
-        </Button>
+        <Link
+          to="/projects/new"
+          className="inline-flex flex-row items-center gap-2 rounded-lg bg-primary px-2.5 py-2 text-sm font-medium text-primary-foreground transition-all hover:bg-primary/80"
+        >
+          <Plus className="size-4 shrink-0" />
+          <span>Add Project</span>
+        </Link>
       </div>
 
       {/* Search and filters */}
