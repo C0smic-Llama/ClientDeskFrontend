@@ -83,12 +83,12 @@ export default function PaymentsPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-semibold">Payments</h1>
+          <h1 className="text-3xl font-semibold tracking-tight">Payments</h1>
 
-          <p className="text-sm text-muted-foreground">
-            Manage and track client payments
+          <p className="mt-1 text-sm text-clientdesk-gray">
+            Manage your payments
           </p>
         </div>
 
