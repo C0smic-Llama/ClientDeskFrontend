@@ -41,33 +41,28 @@ export function DeleteServiceDialog({
   };
 
   return (
-    <AlertDialog
-      open={open}
-      onOpenChange={setOpen}
-    >
-      <AlertDialogTrigger asChild>
-        <Button
-          variant="ghost"
-          size="icon"
-          title="Delete service"
-          aria-label={`Delete ${serviceName}`}
-        >
-          <Trash2 className="size-4 text-clientdesk-red" />
-        </Button>
+    <AlertDialog open={open} onOpenChange={setOpen}>
+      <AlertDialogTrigger
+        render={
+          <Button
+            variant="ghost"
+            size="icon"
+            title="Delete service"
+            aria-label={`Delete ${serviceName}`}
+          />
+        }
+      >
+        <Trash2 className="size-4 text-clientdesk-red" />
       </AlertDialogTrigger>
 
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>
-            Delete service?
-          </AlertDialogTitle>
+          <AlertDialogTitle>Delete service?</AlertDialogTitle>
 
           <AlertDialogDescription>
             Are you sure you want to delete{" "}
-            <span className="font-medium text-foreground">
-              {serviceName}
-            </span>
-            ? This action cannot be undone.
+            <span className="font-medium text-foreground">{serviceName}</span>?
+            This action cannot be undone.
           </AlertDialogDescription>
         </AlertDialogHeader>
 
@@ -80,9 +75,7 @@ export function DeleteServiceDialog({
         )}
 
         <AlertDialogFooter>
-          <AlertDialogCancel
-            disabled={deleteService.isPending}
-          >
+          <AlertDialogCancel disabled={deleteService.isPending}>
             Cancel
           </AlertDialogCancel>
 
@@ -94,9 +87,7 @@ export function DeleteServiceDialog({
             }}
             className="bg-clientdesk-red hover:bg-clientdesk-red/90"
           >
-            {deleteService.isPending
-              ? "Deleting..."
-              : "Delete Service"}
+            {deleteService.isPending ? "Deleting..." : "Delete Service"}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

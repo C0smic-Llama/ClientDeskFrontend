@@ -1,7 +1,7 @@
-import type { User } from "@/features/users/types/user.types";
+import type { UserResponse } from "@/features/users/types/user.types";
 
 interface StaffMultiSelectProps {
-  users: User[];
+  users: UserResponse[];
   selectedUserIds: number[];
   onChange: (userIds: number[]) => void;
   disabled?: boolean;

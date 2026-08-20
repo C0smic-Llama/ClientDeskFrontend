@@ -35,5 +35,5 @@ export interface UserFormValues {
   email: string;
   phoneNumber: string;
   password: string;
-  role: string;
+  role: UserRole;
 }
