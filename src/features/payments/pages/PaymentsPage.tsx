@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Eye, Edit, Trash2, Plus, Receipt } from "lucide-react";
+import { Eye, Edit, Trash2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
+import type { Payment } from "@/features/payments/types/payment.types";
 import {
   Table,
   TableBody,
@@ -33,8 +32,6 @@ export default function PaymentsPage() {
 
   const [page, setPage] = useState(0);
   const [paymentToDelete, setPaymentToDelete] = useState<number | null>(null);
-
-  const pageSize = 10;
 
   const { data, isLoading, isError } = usePayments({
     page,
@@ -126,7 +123,7 @@ export default function PaymentsPage() {
                   </TableCell>
                 </TableRow>
               ) : (
-                payments.map((payment) => (
+                payments.map((payment: Payment) => (
                   <TableRow key={payment.id}>
                     <TableCell className="font-medium">
                       {payment.receiptNumber}

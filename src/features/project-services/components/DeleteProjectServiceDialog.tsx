@@ -27,83 +27,64 @@ export function DeleteProjectServiceDialog({
 }: DeleteProjectServiceDialogProps) {
   const [open, setOpen] = useState(false);
 
-  const deleteProjectService =
-    useDeleteProjectService();
+  const deleteProjectService = useDeleteProjectService();
 
   const handleDelete = () => {
-    deleteProjectService.mutate(
-      projectServiceId,
-      {
-        onSuccess: () => {
-          setOpen(false);
-        },
+    deleteProjectService.mutate(projectServiceId, {
+      onSuccess: () => {
+        setOpen(false);
       },
-    );
+    });
   };
 
   return (
-    <AlertDialog
-      open={open}
-      onOpenChange={setOpen}
-    >
-      <AlertDialogTrigger asChild>
-        <Button
-          variant="ghost"
-          size="icon"
-          title="Remove service"
-          aria-label={`Remove ${serviceName}`}
-        >
-          <Trash2 className="size-4 text-clientdesk-red" />
-        </Button>
+    <AlertDialog open={open} onOpenChange={setOpen}>
+      <AlertDialogTrigger
+        render={
+          <Button
+            variant="ghost"
+            size="icon"
+            title="Remove service"
+            aria-label={`Remove ${serviceName}`}
+          />
+        }
+      >
+        <Trash2 className="size-4 text-clientdesk-red" />
       </AlertDialogTrigger>
 
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>
-            Remove service?
-          </AlertDialogTitle>
+          <AlertDialogTitle>Remove service?</AlertDialogTitle>
 
           <AlertDialogDescription>
             Are you sure you want to remove{" "}
-            <span className="font-medium text-foreground">
-              {serviceName}
-            </span>{" "}
-            from this project? This action cannot
-            be undone.
+            <span className="font-medium text-foreground">{serviceName}</span>{" "}
+            from this project? This action cannot be undone.
           </AlertDialogDescription>
         </AlertDialogHeader>
 
         {deleteProjectService.isError && (
           <p className="text-sm text-clientdesk-red">
-            {deleteProjectService.error instanceof
-            Error
+            {deleteProjectService.error instanceof Error
               ? deleteProjectService.error.message
               : "Failed to remove service."}
           </p>
         )}
 
         <AlertDialogFooter>
-          <AlertDialogCancel
-            disabled={
-              deleteProjectService.isPending
-            }
-          >
+          <AlertDialogCancel disabled={deleteProjectService.isPending}>
             Cancel
           </AlertDialogCancel>
 
           <AlertDialogAction
-            disabled={
-              deleteProjectService.isPending
-            }
+            disabled={deleteProjectService.isPending}
             onClick={(event) => {
               event.preventDefault();
               handleDelete();
             }}
             className="bg-clientdesk-red hover:bg-clientdesk-red/90"
           >
-            {deleteProjectService.isPending
-              ? "Removing..."
-              : "Remove Service"}
+            {deleteProjectService.isPending ? "Removing..." : "Remove Service"}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

@@ -3,9 +3,7 @@ import {
   CheckCircle2,
   CircleDollarSign,
   Clock3,
-  FileCheck2,
   FolderKanban,
-  Receipt,
   Users,
 } from "lucide-react";
 

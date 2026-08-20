@@ -3,7 +3,6 @@ import {
   Users,
   FolderKanban,
   BriefcaseBusiness,
-  PackageCheck,
   FileText,
   CreditCard,
   Settings,

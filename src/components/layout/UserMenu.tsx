@@ -11,7 +11,6 @@ import {
 import { useNavigate } from "react-router-dom";
 
 import { useAuth } from "@/features/auth/useAuth";
-import { clearAuth } from "@/features/auth/authStorage";
 
 export function UserMenu() {
   const navigate = useNavigate();
@@ -22,15 +21,15 @@ export function UserMenu() {
   };
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="flex items-center gap-2">
-          <div className="flex size-8 items-center justify-center rounded-full bg-clientdesk-red text-sm font-semibold text-white">
-            {user?.firstName?.charAt(0)}
-          </div>
+      <DropdownMenuTrigger
+        render={<Button variant="ghost" className="flex items-center gap-2" />}
+      >
+        <div className="flex size-8 items-center justify-center rounded-full bg-clientdesk-red text-sm font-semibold text-white">
+          {user?.firstName?.charAt(0)}
+        </div>
 
-          <span className="hidden sm:inline">{user?.firstName}</span>
-          <ChevronDown className="size-4" />
-        </Button>
+        <span className="hidden sm:inline">{user?.firstName}</span>
+        <ChevronDown className="size-4" />
       </DropdownMenuTrigger>
 
       <DropdownMenuContent align="end" className="w-48">

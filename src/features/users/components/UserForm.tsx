@@ -2,21 +2,34 @@ import { useEffect, useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 
 import type {
-  UserRequest,
+  UserFormValues,
   UserResponse,
-  UserUpdateRequest,
 } from "../types/user.types";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 interface UserFormProps {
   initialData?: UserResponse;
-  onSubmit: (data: UserRequest | UserUpdateRequest) => Promise<void>;
+  onSubmit: (data: UserFormValues) => Promise<void>;
   isSubmitting?: boolean;
   submitLabel?: string;
 }
+
+const emptyForm: UserFormValues = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  phoneNumber: "",
+  password: "",
+  role: "STAFF",
+};
 
 export default function UserForm({
   initialData,
@@ -24,22 +37,13 @@ export default function UserForm({
   isSubmitting = false,
   submitLabel = "Create User",
 }: UserFormProps) {
-  const [formData, setFormData] = useState<UserRequest>({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phoneNumber: "",
-    password: "",
-    role: "STAFF",
-  });
+  const [formData, setFormData] = useState<UserFormValues>(emptyForm);
 
   const [showPassword, setShowPassword] = useState(false);
-
   const [error, setError] = useState("");
 
   useEffect(() => {
     if (initialData) {
-      // for updation
       setFormData({
         firstName: initialData.firstName,
         lastName: initialData.lastName,
@@ -49,15 +53,7 @@ export default function UserForm({
         role: initialData.role,
       });
     } else {
-      //for creation
-      setFormData({
-        firstName: "",
-        lastName: "",
-        email: "",
-        phoneNumber: "",
-        password: "",
-        role: "STAFF",
-      });
+      setFormData(emptyForm);
     }
   }, [initialData]);
 
@@ -72,37 +68,29 @@ export default function UserForm({
     }));
   };
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (
+    event: React.FormEvent<HTMLFormElement>,
+  ) => {
     event.preventDefault();
     setError("");
 
     try {
-      if (initialData) {
-        const updateData: UserUpdateRequest = {
-          firstName: formData.firstName,
-          lastName: formData.lastName,
-          email: formData.email,
-          phoneNumber: formData.phoneNumber,
-          role: formData.role,
-        };
-
-        if (formData.password.trim() !== "") {
-          updateData.password = formData.password;
-        }
-
-        await onSubmit(updateData);
-      } else {
-        await onSubmit(formData);
-      }
+      await onSubmit(formData);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong.");
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Something went wrong.",
+      );
     }
   };
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{initialData ? "Edit User" : "Create User"}</CardTitle>
+        <CardTitle>
+          {initialData ? "Edit User" : "Create User"}
+        </CardTitle>
       </CardHeader>
 
       <CardContent>
@@ -191,7 +179,9 @@ export default function UserForm({
                 value={formData.password}
                 onChange={handleChange}
                 placeholder={
-                  initialData ? "Enter new password" : "Enter password"
+                  initialData
+                    ? "Enter new password"
+                    : "Enter password"
                 }
                 required={!initialData}
                 className="pr-10"
@@ -199,9 +189,15 @@ export default function UserForm({
 
               <button
                 type="button"
-                onClick={() => setShowPassword((current) => !current)}
+                onClick={() =>
+                  setShowPassword((current) => !current)
+                }
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground"
-                aria-label={showPassword ? "Hide password" : "Show password"}
+                aria-label={
+                  showPassword
+                    ? "Hide password"
+                    : "Show password"
+                }
               >
                 {showPassword ? (
                   <EyeOff className="size-4" />
@@ -212,8 +208,8 @@ export default function UserForm({
             </div>
 
             <p className="text-xs text-muted-foreground">
-              8–50 characters with uppercase, lowercase, number and special
-              character.
+              8–50 characters with uppercase, lowercase, number and
+              special character.
             </p>
           </div>
 
@@ -232,7 +228,6 @@ export default function UserForm({
               required
             >
               <option value="STAFF">Staff</option>
-
               <option value="ADMIN">Admin</option>
             </select>
           </div>

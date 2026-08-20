@@ -46,16 +46,18 @@ export function DeleteClientDialog({
 
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
-      <AlertDialogTrigger asChild>
-        <Button
-          variant="ghost"
-          size="icon"
-          title="Delete client"
-          className="text-clientdesk-red hover:bg-red-50 hover:text-clientdesk-red"
-          aria-label={`Delete ${companyName}`}
-        >
-          <Trash2 className="size-4" />
-        </Button>
+      <AlertDialogTrigger
+        render={
+          <Button
+            variant="ghost"
+            size="icon"
+            title="Delete client"
+            className="text-clientdesk-red hover:bg-red-50 hover:text-clientdesk-red"
+            aria-label={`Delete ${companyName}`}
+          />
+        }
+      >
+        <Trash2 className="size-4" />
       </AlertDialogTrigger>
 
       <AlertDialogContent>

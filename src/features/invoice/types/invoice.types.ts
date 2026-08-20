@@ -40,4 +40,6 @@ export interface InvoicePage {
   number: number;
   first: boolean;
   last: boolean;
+  numberOfElements: number;
+  empty: boolean;
 }

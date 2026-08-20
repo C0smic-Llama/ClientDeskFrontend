@@ -41,33 +41,28 @@ export function DeleteProjectDialog({
   };
 
   return (
-    <AlertDialog
-      open={open}
-      onOpenChange={setOpen}
-    >
-      <AlertDialogTrigger asChild>
-        <Button
-          variant="ghost"
-          size="icon"
-          title="Delete project"
-          aria-label={`Delete ${projectName}`}
-        >
-          <Trash2 className="size-4 text-clientdesk-red" />
-        </Button>
+    <AlertDialog open={open} onOpenChange={setOpen}>
+      <AlertDialogTrigger
+        render={
+          <Button
+            variant="ghost"
+            size="icon"
+            title="Delete project"
+            aria-label={`Delete ${projectName}`}
+          />
+        }
+      >
+        <Trash2 className="size-4 text-clientdesk-red" />
       </AlertDialogTrigger>
 
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>
-            Delete project?
-          </AlertDialogTitle>
+          <AlertDialogTitle>Delete project?</AlertDialogTitle>
 
           <AlertDialogDescription>
             Are you sure you want to delete{" "}
-            <span className="font-medium text-foreground">
-              {projectName}
-            </span>
-            ? This action cannot be undone.
+            <span className="font-medium text-foreground">{projectName}</span>?
+            This action cannot be undone.
           </AlertDialogDescription>
         </AlertDialogHeader>
 
@@ -80,9 +75,7 @@ export function DeleteProjectDialog({
         )}
 
         <AlertDialogFooter>
-          <AlertDialogCancel
-            disabled={deleteProject.isPending}
-          >
+          <AlertDialogCancel disabled={deleteProject.isPending}>
             Cancel
           </AlertDialogCancel>
 
@@ -94,9 +87,7 @@ export function DeleteProjectDialog({
             }}
             className="bg-clientdesk-red hover:bg-clientdesk-red/90"
           >
-            {deleteProject.isPending
-              ? "Deleting..."
-              : "Delete Project"}
+            {deleteProject.isPending ? "Deleting..." : "Delete Project"}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

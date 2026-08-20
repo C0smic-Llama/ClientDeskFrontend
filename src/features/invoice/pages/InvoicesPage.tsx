@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Edit, Plus, Download, Eye, CreditCard } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Edit, Plus, Download,  CreditCard } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 
@@ -19,7 +19,6 @@ const statusLabels: Record<InvoiceStatus, string> = {
 };
 
 export function InvoicesPage() {
-  const navigate = useNavigate();
 
   const [page, setPage] = useState(0);
   const [status, setStatus] = useState<InvoiceStatus>();

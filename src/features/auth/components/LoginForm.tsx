@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 import { authenticate } from "../api/authApi";
-import { setAuth } from "../authStorage";
 import type { User } from "../types/auth.types";
 
 import { loginSchema, type LoginFormData } from "../schemas/loginSchema";

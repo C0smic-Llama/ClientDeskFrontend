@@ -1,5 +1,5 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { ArrowLeft, Edit, Mail, MapPin, Phone, Trash2 } from "lucide-react";
+import { ArrowLeft, Edit, Mail, MapPin, Phone } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 

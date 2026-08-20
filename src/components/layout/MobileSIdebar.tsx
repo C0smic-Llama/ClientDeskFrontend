@@ -1,10 +1,7 @@
 import { Menu } from "lucide-react";
 import { NavLink } from "react-router-dom";
 
-import {
-  navigationItems,
-  secondaryNavigationItems,
-} from "./navigation";
+import { navigationItems, secondaryNavigationItems } from "./navigation";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -18,15 +15,17 @@ import {
 export function MobileSidebar() {
   return (
     <Sheet>
-      <SheetTrigger asChild>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="lg:hidden"
-          aria-label="Open navigation menu"
-        >
-          <Menu className="size-5" />
-        </Button>
+      <SheetTrigger
+        render={
+          <Button
+            variant="ghost"
+            size="icon"
+            className="lg:hidden"
+            aria-label="Open navigation menu"
+          />
+        }
+      >
+        <Menu className="size-5" />
       </SheetTrigger>
 
       <SheetContent side="left" className="w-72 p-0">

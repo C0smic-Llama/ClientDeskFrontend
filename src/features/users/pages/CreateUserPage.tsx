@@ -33,6 +33,7 @@ export default function CreateUserPage() {
       </div>
 
       <UserForm
+        key="create-user"
         onSubmit={handleSubmit}
         isSubmitting={isCreating}
         submitLabel="Create User"

@@ -29,3 +29,11 @@ export interface UserResponse {
   createdAt: string;
   updatedAt: string;
 }
+export interface UserFormValues {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phoneNumber: string;
+  password: string;
+  role: string;
+}
