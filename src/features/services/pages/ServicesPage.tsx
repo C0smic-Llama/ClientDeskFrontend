@@ -246,19 +246,18 @@ export function ServicesPage() {
                       <div className="flex items-center justify-end gap-1">
                         {/* Edit */}
                         <Button
-                          asChild
                           variant="ghost"
                           size="icon"
                           title="Edit service"
+                          render={
+                            <Link
+                              to={`/services/${service.id}/edit`}
+                              aria-label={`Edit ${service.serviceName}`}
+                            />
+                          }
                         >
-                          <Link
-                            to={`/services/${service.id}/edit`}
-                            aria-label={`Edit ${service.serviceName}`}
-                          >
-                            <Edit className="size-4" />
-                          </Link>
+                          <Edit className="size-4" />
                         </Button>
-
                         {/* Activate / Deactivate */}
                         <Button
                           variant="ghost"

@@ -138,11 +138,13 @@ export function AddProject() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <Button asChild variant="ghost" className="mb-3 -ml-2">
-          <Link to="/projects">
-            <ArrowLeft className="mr-2 size-4" />
-            Back to Projects
-          </Link>
+        <Button
+          variant="ghost"
+          className="mb-3 -ml-2"
+          render={<Link to="/projects" />}
+        >
+          <ArrowLeft className="mr-2 size-4" />
+          Back to Projects
         </Button>
 
         <h1 className="text-3xl font-semibold tracking-tight">Add Project</h1>
@@ -570,8 +572,12 @@ export function AddProject() {
 
         {/* Actions */}
         <div className="flex justify-end gap-3">
-          <Button asChild variant="outline" disabled={createProject.isPending}>
-            <Link to="/projects">Cancel</Link>
+          <Button
+            variant="outline"
+            disabled={createProject.isPending}
+            render={<Link to="/projects" />}
+          >
+            Cancel
           </Button>
 
           <Button

@@ -112,11 +112,9 @@ export function ProjectsPage() {
           </p>
 
           {!search && !status && (
-            <Button asChild className="mt-5">
-              <Link to="/projects/new">
-                <Plus className="mr-2 size-4" />
-                Add your first project
-              </Link>
+            <Button className="mt-5" render={<Link to="/projects/new" />}>
+              <Plus className="mr-2 size-4" />
+              Add your first project
             </Button>
           )}
         </div>
@@ -233,30 +231,30 @@ export function ProjectsPage() {
                     <td className="px-6 py-4">
                       <div className="flex items-center justify-end gap-1">
                         <Button
-                          asChild
                           variant="ghost"
                           size="icon"
                           title="Create invoice"
+                          render={
+                            <Link
+                              to={`/invoices/new?projectId=${project.id}`}
+                              aria-label={`Create invoice for ${project.projectName}`}
+                            />
+                          }
                         >
-                          <Link
-                            to={`/invoices/new?projectId=${project.id}`}
-                            aria-label={`Create invoice for ${project.projectName}`}
-                          >
-                            <FileText className="size-4" />
-                          </Link>
+                          <FileText className="size-4" />
                         </Button>
                         <Button
-                          asChild
                           variant="ghost"
                           size="icon"
                           title="Edit project"
+                          render={
+                            <Link
+                              to={`/projects/${project.id}/edit`}
+                              aria-label={`Edit ${project.projectName}`}
+                            />
+                          }
                         >
-                          <Link
-                            to={`/projects/${project.id}/edit`}
-                            aria-label={`Edit ${project.projectName}`}
-                          >
-                            <Edit className="size-4" />
-                          </Link>
+                          <Edit className="size-4" />
                         </Button>
                         <DeleteProjectDialog
                           projectId={project.id}

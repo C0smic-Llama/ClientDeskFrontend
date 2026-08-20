@@ -27,21 +27,17 @@ export function CreateClientPage() {
       {/* Header */}
       <div className="space-y-3">
         <Button
-          asChild
           variant="ghost"
           size="sm"
           className="-ml-2"
+          render={<Link to="/clients" />}
         >
-          <Link to="/clients">
-            <ArrowLeft className="mr-2 size-4" />
-            Back to Clients
-          </Link>
+          <ArrowLeft className="mr-2 size-4" />
+          Back to Clients
         </Button>
 
         <div>
-          <h1 className="text-3xl font-semibold tracking-tight">
-            Add Client
-          </h1>
+          <h1 className="text-3xl font-semibold tracking-tight">Add Client</h1>
 
           <p className="mt-1 text-sm text-clientdesk-gray">
             Add a new client to your ClientDesk workspace.
@@ -59,10 +55,7 @@ export function CreateClientPage() {
 
         {/* API Error */}
         {createClientMutation.isError && (
-          <p
-            role="alert"
-            className="mt-4 text-sm text-clientdesk-red"
-          >
+          <p role="alert" className="mt-4 text-sm text-clientdesk-red">
             Failed to create client. Please try again.
           </p>
         )}

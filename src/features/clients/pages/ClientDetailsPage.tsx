@@ -19,11 +19,9 @@ export function ClientDetailsPage() {
       <div className="space-y-4">
         <h1 className="text-2xl font-semibold">Invalid Client</h1>
 
-        <Button asChild variant="outline">
-          <Link to="/clients">
-            <ArrowLeft className="mr-2 size-4" />
-            Back to Clients
-          </Link>
+        <Button variant="outline" render={<Link to="/clients" />}>
+          <ArrowLeft className="mr-2 size-4" />
+          Back to Clients
         </Button>
       </div>
     );
@@ -56,11 +54,9 @@ export function ClientDetailsPage() {
             : "The requested client could not be found."}
         </p>
 
-        <Button asChild variant="outline">
-          <Link to="/clients">
-            <ArrowLeft className="mr-2 size-4" />
-            Back to Clients
-          </Link>
+        <Button variant="outline" render={<Link to="/clients" />}>
+          <ArrowLeft className="mr-2 size-4" />
+          Back to Clients
         </Button>
       </div>
     );
@@ -69,11 +65,14 @@ export function ClientDetailsPage() {
   return (
     <div className="space-y-6">
       {/* Back */}
-      <Button asChild variant="ghost" size="sm" className="-ml-2">
-        <Link to="/clients">
-          <ArrowLeft className="mr-2 size-4" />
-          Back to Clients
-        </Link>
+      <Button
+        variant="ghost"
+        size="sm"
+        className="-ml-2"
+        render={<Link to="/clients" />}
+      >
+        <ArrowLeft className="mr-2 size-4" />
+        Back to Clients
       </Button>
 
       {/* Header */}
@@ -103,11 +102,12 @@ export function ClientDetailsPage() {
         </div>
 
         <div className="flex gap-2">
-          <Button asChild variant="outline">
-            <Link to={`/clients/${client.id}/edit`}>
-              <Edit className="mr-2 size-4" />
-              Edit
-            </Link>
+          <Button
+            variant="outline"
+            render={<Link to={`/clients/${client.id}/edit`} />}
+          >
+            <Edit className="mr-2 size-4" />
+            Edit
           </Button>
 
           <DeleteClientDialog

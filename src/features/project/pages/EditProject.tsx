@@ -1,22 +1,8 @@
-import {
-  useEffect,
-  useState,
-  type ChangeEvent,
-  type SubmitEvent,
-} from "react";
+import { useEffect, useState, type ChangeEvent, type SubmitEvent } from "react";
 
-import {
-  Link,
-  useNavigate,
-  useParams,
-} from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
-import {
-  ArrowLeft,
-  Edit,
-  Plus,
-  Trash2,
-} from "lucide-react";
+import { ArrowLeft, Edit, Plus, Trash2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 
@@ -41,10 +27,7 @@ import { StaffMultiSelect } from "../components/StaffMultiSelect";
 import { useProject } from "../hooks/useProject";
 import { useUpdateProject } from "../hooks/useUpdateProject";
 
-import type {
-  ProjectRequest,
-  ProjectStatus,
-} from "../types/project.types";
+import type { ProjectRequest, ProjectStatus } from "../types/project.types";
 
 const statuses: {
   value: ProjectStatus;
@@ -126,39 +109,35 @@ export function EditProject() {
    */
   const updateProject = useUpdateProject();
 
-  const assignService =
-    useAssignServiceToProject();
+  const assignService = useAssignServiceToProject();
 
-  const updateProjectService =
-    useUpdateProjectService();
+  const updateProjectService = useUpdateProjectService();
 
-  const deleteProjectService =
-    useDeleteProjectService();
+  const deleteProjectService = useDeleteProjectService();
 
   /*
    * Project form state
    */
-  const [formData, setFormData] =
-    useState<ProjectRequest>({
-      projectName: "",
-      description: "",
-      status: "PENDING",
-      startDate: "",
-      deadline: "",
-      quota: 0,
-      notes: "",
-      clientId: 0,
-      assignedUserIds: [],
-    });
+  const [formData, setFormData] = useState<ProjectRequest>({
+    projectName: "",
+    description: "",
+    status: "PENDING",
+    startDate: "",
+    deadline: "",
+    quota: 0,
+    notes: "",
+    clientId: 0,
+    assignedUserIds: [],
+  });
 
   /*
    * Project Service UI state
    */
-  const [showServiceForm, setShowServiceForm] =
-    useState(false);
+  const [showServiceForm, setShowServiceForm] = useState(false);
 
-  const [editingService, setEditingService] =
-    useState<ProjectService | null>(null);
+  const [editingService, setEditingService] = useState<ProjectService | null>(
+    null,
+  );
 
   /*
    * Populate project form
@@ -174,10 +153,7 @@ export function EditProject() {
         quota: project.quota,
         notes: project.notes ?? "",
         clientId: project.clientId,
-        assignedUserIds:
-          project.assignedUsers.map(
-            (user) => user.id,
-          ),
+        assignedUserIds: project.assignedUsers.map((user) => user.id),
       });
     }
   }, [project]);
@@ -187,29 +163,21 @@ export function EditProject() {
    */
   const handleChange = (
     event: ChangeEvent<
-      HTMLInputElement |
-        HTMLTextAreaElement |
-        HTMLSelectElement
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >,
   ) => {
     const { name, value } = event.target;
 
     setFormData((current) => ({
       ...current,
-      [name]:
-        name === "quota" ||
-        name === "clientId"
-          ? Number(value)
-          : value,
+      [name]: name === "quota" || name === "clientId" ? Number(value) : value,
     }));
   };
 
   /*
    * Staff changes
    */
-  const handleStaffChange = (
-    userIds: number[],
-  ) => {
+  const handleStaffChange = (userIds: number[]) => {
     setFormData((current) => ({
       ...current,
       assignedUserIds: userIds,
@@ -219,9 +187,7 @@ export function EditProject() {
   /*
    * Update project
    */
-  const handleSubmit = (
-    event: SubmitEvent,
-  ) => {
+  const handleSubmit = (event: SubmitEvent) => {
     event.preventDefault();
 
     updateProject.mutate(
@@ -240,9 +206,7 @@ export function EditProject() {
   /*
    * Add Project Service
    */
-  const handleAddService = async (
-    service: ProjectServiceRequest,
-  ) => {
+  const handleAddService = async (service: ProjectServiceRequest) => {
     try {
       await assignService.mutateAsync({
         ...service,
@@ -258,17 +222,14 @@ export function EditProject() {
   /*
    * Update Project Service
    */
-  const handleUpdateService = async (
-    service: ProjectServiceRequest,
-  ) => {
+  const handleUpdateService = async (service: ProjectServiceRequest) => {
     if (!editingService) {
       return;
     }
 
     try {
       await updateProjectService.mutateAsync({
-        projectServiceId:
-          editingService.id,
+        projectServiceId: editingService.id,
         data: {
           ...service,
           projectId,
@@ -284,9 +245,7 @@ export function EditProject() {
   /*
    * Delete Project Service
    */
-  const handleDeleteService = (
-    projectServiceId: number,
-  ) => {
+  const handleDeleteService = (projectServiceId: number) => {
     const confirmed = window.confirm(
       "Are you sure you want to remove this service from the project?",
     );
@@ -295,9 +254,7 @@ export function EditProject() {
       return;
     }
 
-    deleteProjectService.mutate(
-      projectServiceId,
-    );
+    deleteProjectService.mutate(projectServiceId);
   };
 
   /*
@@ -308,30 +265,20 @@ export function EditProject() {
     service: ProjectService,
   ): ProjectServiceRequest => ({
     projectId,
-    serviceCatalogueId:
-      service.serviceCatalogueId,
+    serviceCatalogueId: service.serviceCatalogueId,
     quantity: service.quantity,
     agreedPrice: service.agreedPrice,
-    discount:
-      service.discount ?? undefined,
-    remarks:
-      service.remarks ?? undefined,
+    discount: service.discount ?? undefined,
+    remarks: service.remarks ?? undefined,
   });
 
   /*
    * Loading state
    */
-  if (
-    projectLoading ||
-    clientsLoading ||
-    staffLoading ||
-    servicesLoading
-  ) {
+  if (projectLoading || clientsLoading || staffLoading || servicesLoading) {
     return (
       <div className="rounded-lg border border-clientdesk-light bg-white p-8 text-center">
-        <p className="text-sm text-clientdesk-gray">
-          Loading project...
-        </p>
+        <p className="text-sm text-clientdesk-gray">Loading project...</p>
       </div>
     );
   }
@@ -339,35 +286,23 @@ export function EditProject() {
   /*
    * Error state
    */
-  if (
-    projectError ||
-    !project ||
-    clientsError ||
-    staffError ||
-    servicesError
-  ) {
+  if (projectError || !project || clientsError || staffError || servicesError) {
     return (
       <div className="space-y-4">
         <Button
-          asChild
           variant="ghost"
           className="-ml-2"
+          render={<Link to="/projects" />}
         >
-          <Link to="/projects">
-            <ArrowLeft className="mr-2 size-4" />
-            Back to Projects
-          </Link>
+          <ArrowLeft className="mr-2 size-4" />
+          Back to Projects
         </Button>
 
         <div className="rounded-lg border border-red-200 bg-white p-8 text-center">
-          <p className="text-sm text-clientdesk-red">
-            Failed to load project.
-          </p>
+          <p className="text-sm text-clientdesk-red">Failed to load project.</p>
 
           {error instanceof Error && (
-            <p className="mt-1 text-xs text-clientdesk-gray">
-              {error.message}
-            </p>
+            <p className="mt-1 text-xs text-clientdesk-gray">{error.message}</p>
           )}
         </div>
       </div>
@@ -379,8 +314,7 @@ export function EditProject() {
    */
   const totalServicesCost =
     projectServices?.content.reduce(
-      (total, service) =>
-        total + service.lineTotal,
+      (total, service) => total + service.lineTotal,
       0,
     ) ?? 0;
 
@@ -389,38 +323,27 @@ export function EditProject() {
       {/* Header */}
       <div>
         <Button
-          asChild
           variant="ghost"
           className="mb-3 -ml-2"
+          render={<Link to="/projects" />}
         >
-          <Link to="/projects">
-            <ArrowLeft className="mr-2 size-4" />
-            Back to Projects
-          </Link>
+          <ArrowLeft className="mr-2 size-4" />
+          Back to Projects
         </Button>
 
-        <h1 className="text-3xl font-semibold tracking-tight">
-          Edit Project
-        </h1>
+        <h1 className="text-3xl font-semibold tracking-tight">Edit Project</h1>
 
         <p className="mt-1 text-sm text-clientdesk-gray">
-          Update the project information, staff
-          assignments, and services.
+          Update the project information, staff assignments, and services.
         </p>
       </div>
 
       {/* Main Form */}
       <div className="rounded-lg border border-clientdesk-light bg-white p-6">
-        <form
-          onSubmit={handleSubmit}
-          className="space-y-6"
-        >
+        <form onSubmit={handleSubmit} className="space-y-6">
           {/* Project Name */}
           <div className="space-y-2">
-            <label
-              htmlFor="projectName"
-              className="text-sm font-medium"
-            >
+            <label htmlFor="projectName" className="text-sm font-medium">
               Project Name
             </label>
 
@@ -442,10 +365,7 @@ export function EditProject() {
 
           {/* Description */}
           <div className="space-y-2">
-            <label
-              htmlFor="description"
-              className="text-sm font-medium"
-            >
+            <label htmlFor="description" className="text-sm font-medium">
               Description
             </label>
 
@@ -464,10 +384,7 @@ export function EditProject() {
           <div className="grid gap-6 sm:grid-cols-2">
             {/* Client */}
             <div className="space-y-2">
-              <label
-                htmlFor="clientId"
-                className="text-sm font-medium"
-              >
+              <label htmlFor="clientId" className="text-sm font-medium">
                 Client
               </label>
 
@@ -479,29 +396,19 @@ export function EditProject() {
                 required
                 className="w-full rounded-md border border-clientdesk-light bg-white px-3 py-2 text-sm outline-none transition focus:border-clientdesk-gray focus:ring-1 focus:ring-clientdesk-gray"
               >
-                <option value="">
-                  Select a client
-                </option>
+                <option value="">Select a client</option>
 
-                {clientData?.content.map(
-                  (client) => (
-                    <option
-                      key={client.id}
-                      value={client.id}
-                    >
-                      {client.companyName}
-                    </option>
-                  ),
-                )}
+                {clientData?.content.map((client) => (
+                  <option key={client.id} value={client.id}>
+                    {client.companyName}
+                  </option>
+                ))}
               </select>
             </div>
 
             {/* Status */}
             <div className="space-y-2">
-              <label
-                htmlFor="status"
-                className="text-sm font-medium"
-              >
+              <label htmlFor="status" className="text-sm font-medium">
                 Status
               </label>
 
@@ -514,10 +421,7 @@ export function EditProject() {
                 className="w-full rounded-md border border-clientdesk-light bg-white px-3 py-2 text-sm outline-none transition focus:border-clientdesk-gray focus:ring-1 focus:ring-clientdesk-gray"
               >
                 {statuses.map((item) => (
-                  <option
-                    key={item.value}
-                    value={item.value}
-                  >
+                  <option key={item.value} value={item.value}>
                     {item.label}
                   </option>
                 ))}
@@ -529,10 +433,7 @@ export function EditProject() {
           <div className="grid gap-6 sm:grid-cols-2">
             {/* Start Date */}
             <div className="space-y-2">
-              <label
-                htmlFor="startDate"
-                className="text-sm font-medium"
-              >
+              <label htmlFor="startDate" className="text-sm font-medium">
                 Start Date
               </label>
 
@@ -549,10 +450,7 @@ export function EditProject() {
 
             {/* Deadline */}
             <div className="space-y-2">
-              <label
-                htmlFor="deadline"
-                className="text-sm font-medium"
-              >
+              <label htmlFor="deadline" className="text-sm font-medium">
                 Deadline
               </label>
 
@@ -562,10 +460,7 @@ export function EditProject() {
                 type="date"
                 value={formData.deadline}
                 onChange={handleChange}
-                min={
-                  formData.startDate ||
-                  undefined
-                }
+                min={formData.startDate || undefined}
                 required
                 className="w-full rounded-md border border-clientdesk-light bg-white px-3 py-2 text-sm outline-none transition focus:border-clientdesk-gray focus:ring-1 focus:ring-clientdesk-gray"
               />
@@ -574,10 +469,7 @@ export function EditProject() {
 
           {/* Quota */}
           <div className="space-y-2">
-            <label
-              htmlFor="quota"
-              className="text-sm font-medium"
-            >
+            <label htmlFor="quota" className="text-sm font-medium">
               Quota
             </label>
 
@@ -602,10 +494,7 @@ export function EditProject() {
 
           {/* Notes */}
           <div className="space-y-2">
-            <label
-              htmlFor="notes"
-              className="text-sm font-medium"
-            >
+            <label htmlFor="notes" className="text-sm font-medium">
               Notes
             </label>
 
@@ -627,9 +516,7 @@ export function EditProject() {
           {/* Assigned Staff */}
           <div className="space-y-2">
             <div>
-              <label className="text-sm font-medium">
-                Assigned Staff
-              </label>
+              <label className="text-sm font-medium">Assigned Staff</label>
 
               <p className="mt-1 text-xs text-clientdesk-gray">
                 Select at least one staff member.
@@ -638,18 +525,14 @@ export function EditProject() {
 
             <StaffMultiSelect
               users={staffData?.content ?? []}
-              selectedUserIds={
-                formData.assignedUserIds
-              }
+              selectedUserIds={formData.assignedUserIds}
               onChange={handleStaffChange}
               disabled={updateProject.isPending}
             />
 
-            {formData.assignedUserIds
-              .length === 0 && (
+            {formData.assignedUserIds.length === 0 && (
               <p className="text-xs text-clientdesk-red">
-                At least one staff member must be
-                assigned.
+                At least one staff member must be assigned.
               </p>
             )}
           </div>
@@ -658,217 +541,168 @@ export function EditProject() {
           <div className="space-y-5 border-t border-clientdesk-light pt-6">
             <div className="flex items-center justify-between gap-4">
               <div>
-                <h2 className="text-lg font-semibold">
-                  Project Services
-                </h2>
+                <h2 className="text-lg font-semibold">Project Services</h2>
 
                 <p className="mt-1 text-sm text-clientdesk-gray">
-                  Manage the services assigned to
-                  this project.
+                  Manage the services assigned to this project.
                 </p>
               </div>
 
-              {!showServiceForm &&
-                !editingService && (
-                  <Button
-                    type="button"
-                    size="sm"
-                    onClick={() => {
-                      setEditingService(null);
-                      setShowServiceForm(true);
-                    }}
-                  >
-                    <Plus className="mr-2 size-4" />
-                    Add Service
-                  </Button>
-                )}
+              {!showServiceForm && !editingService && (
+                <Button
+                  type="button"
+                  size="sm"
+                  onClick={() => {
+                    setEditingService(null);
+                    setShowServiceForm(true);
+                  }}
+                >
+                  <Plus className="mr-2 size-4" />
+                  Add Service
+                </Button>
+              )}
             </div>
 
             {/* Add / Edit Service Form */}
-            {(showServiceForm ||
-              editingService !== null) && (
+            {(showServiceForm || editingService !== null) && (
               <div className="rounded-lg border border-clientdesk-light bg-clientdesk-light/10 p-5">
                 <h3 className="mb-4 font-medium">
-                  {editingService
-                    ? "Edit Service"
-                    : "Add Service"}
+                  {editingService ? "Edit Service" : "Add Service"}
                 </h3>
 
                 <ProjectServiceForm
                   initialData={
                     editingService
-                      ? getServiceFormData(
-                          editingService,
-                        )
+                      ? getServiceFormData(editingService)
                       : undefined
                   }
                   existingServiceIds={
                     projectServices?.content
-                      .filter(
-                        (service) =>
-                          service.id !==
-                          editingService?.id,
-                      )
-                      .map(
-                        (service) =>
-                          service.serviceCatalogueId,
-                      ) ?? []
+                      .filter((service) => service.id !== editingService?.id)
+                      .map((service) => service.serviceCatalogueId) ?? []
                   }
                   onSubmit={
-                    editingService
-                      ? handleUpdateService
-                      : handleAddService
+                    editingService ? handleUpdateService : handleAddService
                   }
                   onCancel={() => {
                     setShowServiceForm(false);
                     setEditingService(null);
                   }}
                   isSubmitting={
-                    assignService.isPending ||
-                    updateProjectService.isPending
+                    assignService.isPending || updateProjectService.isPending
                   }
                 />
               </div>
             )}
 
             {/* Services List */}
-            {projectServices?.content &&
-              projectServices.content.length >
-                0 && (
-                <div className="space-y-3">
-                  {projectServices.content.map(
-                    (service) => (
-                      <div
-                        key={service.id}
-                        className="rounded-lg border border-clientdesk-light p-4"
-                      >
-                        <div className="flex items-start justify-between gap-4">
-                          {/* Service Details */}
-                          <div className="min-w-0">
-                            <p className="font-medium">
-                              {service.serviceName}
-                            </p>
+            {projectServices?.content && projectServices.content.length > 0 && (
+              <div className="space-y-3">
+                {projectServices.content.map((service) => (
+                  <div
+                    key={service.id}
+                    className="rounded-lg border border-clientdesk-light p-4"
+                  >
+                    <div className="flex items-start justify-between gap-4">
+                      {/* Service Details */}
+                      <div className="min-w-0">
+                        <p className="font-medium">{service.serviceName}</p>
 
-                            <div className="mt-1 flex flex-wrap gap-x-4 gap-y-1 text-sm text-clientdesk-gray">
+                        <div className="mt-1 flex flex-wrap gap-x-4 gap-y-1 text-sm text-clientdesk-gray">
+                          <span>Quantity: {service.quantity}</span>
+
+                          <span>
+                            Price: ₹
+                            {service.agreedPrice.toLocaleString("en-IN", {
+                              minimumFractionDigits: 2,
+                              maximumFractionDigits: 2,
+                            })}
+                          </span>
+
+                          {service.discount !== null &&
+                            service.discount > 0 && (
                               <span>
-                                Quantity:{" "}
-                                {service.quantity}
+                                Discount: ₹
+                                {service.discount.toLocaleString("en-IN", {
+                                  minimumFractionDigits: 2,
+                                  maximumFractionDigits: 2,
+                                })}
                               </span>
-
-                              <span>
-                                Price: ₹
-                                {service.agreedPrice.toLocaleString(
-                                  "en-IN",
-                                  {
-                                    minimumFractionDigits: 2,
-                                    maximumFractionDigits: 2,
-                                  },
-                                )}
-                              </span>
-
-                              {service.discount !==
-                                null &&
-                                service.discount >
-                                  0 && (
-                                  <span>
-                                    Discount: ₹
-                                    {service.discount.toLocaleString(
-                                      "en-IN",
-                                      {
-                                        minimumFractionDigits: 2,
-                                        maximumFractionDigits: 2,
-                                      },
-                                    )}
-                                  </span>
-                                )}
-                            </div>
-
-                            {service.remarks && (
-                              <p className="mt-2 text-sm text-clientdesk-gray">
-                                {service.remarks}
-                              </p>
                             )}
-                          </div>
+                        </div>
 
-                          {/* Total + Actions */}
-                          <div className="flex shrink-0 items-start gap-4">
-                            <div className="text-right">
-                              <p className="text-xs text-clientdesk-gray">
-                                Line Total
-                              </p>
+                        {service.remarks && (
+                          <p className="mt-2 text-sm text-clientdesk-gray">
+                            {service.remarks}
+                          </p>
+                        )}
+                      </div>
 
-                              <p className="font-semibold">
-                                ₹
-                                {service.lineTotal.toLocaleString(
-                                  "en-IN",
-                                  {
-                                    minimumFractionDigits: 2,
-                                    maximumFractionDigits: 2,
-                                  },
-                                )}
-                              </p>
-                            </div>
+                      {/* Total + Actions */}
+                      <div className="flex shrink-0 items-start gap-4">
+                        <div className="text-right">
+                          <p className="text-xs text-clientdesk-gray">
+                            Line Total
+                          </p>
 
-                            <div className="flex items-center gap-1">
-                              <Button
-                                type="button"
-                                variant="ghost"
-                                size="icon"
-                                title="Edit service"
-                                disabled={
-                                  assignService.isPending ||
-                                  updateProjectService.isPending ||
-                                  deleteProjectService.isPending
-                                }
-                                onClick={() => {
-                                  setEditingService(
-                                    service,
-                                  );
-                                  setShowServiceForm(
-                                    false,
-                                  );
-                                }}
-                              >
-                                <Edit className="size-4" />
-                              </Button>
+                          <p className="font-semibold">
+                            ₹
+                            {service.lineTotal.toLocaleString("en-IN", {
+                              minimumFractionDigits: 2,
+                              maximumFractionDigits: 2,
+                            })}
+                          </p>
+                        </div>
 
-                              <Button
-                                type="button"
-                                variant="ghost"
-                                size="icon"
-                                title="Remove service"
-                                disabled={
-                                  assignService.isPending ||
-                                  updateProjectService.isPending ||
-                                  deleteProjectService.isPending
-                                }
-                                onClick={() =>
-                                  handleDeleteService(
-                                    service.id,
-                                  )
-                                }
-                              >
-                                <Trash2 className="size-4 text-clientdesk-red" />
-                              </Button>
-                            </div>
-                          </div>
+                        <div className="flex items-center gap-1">
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="icon"
+                            title="Edit service"
+                            disabled={
+                              assignService.isPending ||
+                              updateProjectService.isPending ||
+                              deleteProjectService.isPending
+                            }
+                            onClick={() => {
+                              setEditingService(service);
+                              setShowServiceForm(false);
+                            }}
+                          >
+                            <Edit className="size-4" />
+                          </Button>
+
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="icon"
+                            title="Remove service"
+                            disabled={
+                              assignService.isPending ||
+                              updateProjectService.isPending ||
+                              deleteProjectService.isPending
+                            }
+                            onClick={() => handleDeleteService(service.id)}
+                          >
+                            <Trash2 className="size-4 text-clientdesk-red" />
+                          </Button>
                         </div>
                       </div>
-                    ),
-                  )}
-                </div>
-              )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
 
             {/* Empty state */}
             {(!projectServices?.content ||
-              projectServices.content.length ===
-                0) &&
+              projectServices.content.length === 0) &&
               !showServiceForm &&
               !editingService && (
                 <div className="rounded-lg border border-dashed border-clientdesk-light p-8 text-center">
                   <p className="text-sm text-clientdesk-gray">
-                    No services assigned to this
-                    project.
+                    No services assigned to this project.
                   </p>
 
                   <Button
@@ -876,9 +710,7 @@ export function EditProject() {
                     variant="outline"
                     size="sm"
                     className="mt-4"
-                    onClick={() =>
-                      setShowServiceForm(true)
-                    }
+                    onClick={() => setShowServiceForm(true)}
                   >
                     <Plus className="mr-2 size-4" />
                     Add First Service
@@ -887,35 +719,27 @@ export function EditProject() {
               )}
 
             {/* Services Total */}
-            {projectServices?.content &&
-              projectServices.content.length >
-                0 && (
-                <div className="border-t border-clientdesk-light pt-5">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-sm font-medium">
-                        Total Services Cost
-                      </p>
+            {projectServices?.content && projectServices.content.length > 0 && (
+              <div className="border-t border-clientdesk-light pt-5">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-medium">Total Services Cost</p>
 
-                      <p className="mt-1 text-xs text-clientdesk-gray">
-                        Current total of all assigned
-                        services.
-                      </p>
-                    </div>
-
-                    <p className="text-lg font-semibold">
-                      ₹
-                      {totalServicesCost.toLocaleString(
-                        "en-IN",
-                        {
-                          minimumFractionDigits: 2,
-                          maximumFractionDigits: 2,
-                        },
-                      )}
+                    <p className="mt-1 text-xs text-clientdesk-gray">
+                      Current total of all assigned services.
                     </p>
                   </div>
+
+                  <p className="text-lg font-semibold">
+                    ₹
+                    {totalServicesCost.toLocaleString("en-IN", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
+                  </p>
                 </div>
-              )}
+              </div>
+            )}
 
             {/* Service Mutation Error */}
             {(assignService.isError ||
@@ -926,22 +750,19 @@ export function EditProject() {
                   Failed to update project services.
                 </p>
 
-                {assignService.error instanceof
-                  Error && (
+                {assignService.error instanceof Error && (
                   <p className="mt-1 text-xs text-clientdesk-gray">
                     {assignService.error.message}
                   </p>
                 )}
 
-                {updateProjectService.error instanceof
-                  Error && (
+                {updateProjectService.error instanceof Error && (
                   <p className="mt-1 text-xs text-clientdesk-gray">
                     {updateProjectService.error.message}
                   </p>
                 )}
 
-                {deleteProjectService.error instanceof
-                  Error && (
+                {deleteProjectService.error instanceof Error && (
                   <p className="mt-1 text-xs text-clientdesk-gray">
                     {deleteProjectService.error.message}
                   </p>
@@ -957,8 +778,7 @@ export function EditProject() {
                 Failed to update project.
               </p>
 
-              {updateProject.error instanceof
-                Error && (
+              {updateProject.error instanceof Error && (
                 <p className="mt-1 text-xs text-clientdesk-gray">
                   {updateProject.error.message}
                 </p>
@@ -969,28 +789,20 @@ export function EditProject() {
           {/* Actions */}
           <div className="flex items-center justify-end gap-3 border-t border-clientdesk-light pt-6">
             <Button
-              asChild
               variant="outline"
-              disabled={
-                updateProject.isPending
-              }
+              disabled={updateProject.isPending}
+              render={<Link to="/projects" />}
             >
-              <Link to="/projects">
-                Cancel
-              </Link>
+              Cancel
             </Button>
 
             <Button
               type="submit"
               disabled={
-                updateProject.isPending ||
-                formData.assignedUserIds
-                  .length === 0
+                updateProject.isPending || formData.assignedUserIds.length === 0
               }
             >
-              {updateProject.isPending
-                ? "Saving..."
-                : "Save Changes"}
+              {updateProject.isPending ? "Saving..." : "Save Changes"}
             </Button>
           </div>
         </form>

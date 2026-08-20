@@ -276,7 +276,6 @@ export function InvoicesPage() {
                       <div className="flex items-center justify-end gap-1">
                         {/* payments */}
                         <Button
-                          asChild
                           variant="ghost"
                           size="icon"
                           title="Record payment"
@@ -284,28 +283,29 @@ export function InvoicesPage() {
                             invoice.status === "PAID" ||
                             invoice.status === "CANCELLED"
                           }
+                          render={
+                            <Link
+                              to={`/invoices/${invoice.id}/payments/create`}
+                              aria-label={`Record payment for ${invoice.invoiceNumber}`}
+                            />
+                          }
                         >
-                          <Link
-                            to={`/invoices/${invoice.id}/payments/create`}
-                            aria-label={`Record payment for ${invoice.invoiceNumber}`}
-                          >
-                            <CreditCard className="size-4" />
-                          </Link>
+                          <CreditCard className="size-4" />
                         </Button>
 
                         {/* Edit */}
                         <Button
-                          asChild
                           variant="ghost"
                           size="icon"
                           title="Edit invoice"
+                          render={
+                            <Link
+                              to={`/invoices/${invoice.id}/edit`}
+                              aria-label={`Edit ${invoice.invoiceNumber}`}
+                            />
+                          }
                         >
-                          <Link
-                            to={`/invoices/${invoice.id}/edit`}
-                            aria-label={`Edit ${invoice.invoiceNumber}`}
-                          >
-                            <Edit className="size-4" />
-                          </Link>
+                          <Edit className="size-4" />
                         </Button>
 
                         <DeleteInvoiceDialog

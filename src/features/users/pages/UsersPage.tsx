@@ -64,11 +64,9 @@ export default function UsersPage() {
           </p>
         </div>
 
-        <Button asChild>
-          <Link to="/users/new">
-            <Plus className="mr-2 size-4" />
-            Add User
-          </Link>
+        <Button render={<Link to="/users/new" />}>
+          <Plus className="mr-2 size-4" />
+          Add User
         </Button>
       </div>
 
@@ -202,17 +200,17 @@ export default function UsersPage() {
                         <td className="px-4 py-3">
                           <div className="flex justify-end gap-1">
                             <Button
-                              asChild
                               variant="ghost"
                               size="icon"
                               title="Edit user"
+                              render={
+                                <Link
+                                  to={`/users/${user.id}/edit`}
+                                  aria-label={`Edit ${user.firstName} ${user.lastName}`}
+                                />
+                              }
                             >
-                              <Link
-                                to={`/users/${user.id}/edit`}
-                                aria-label={`Edit ${user.firstName} ${user.lastName}`}
-                              >
-                                <Edit className="size-4" />
-                              </Link>
+                              <Edit className="size-4" />
                             </Button>
 
                             <Button

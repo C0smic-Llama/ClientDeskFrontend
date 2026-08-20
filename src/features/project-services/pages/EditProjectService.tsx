@@ -1,14 +1,5 @@
-import {
-  useEffect,
-  useState,
-  type ChangeEvent,
-  type SubmitEvent,
-} from "react";
-import {
-  Link,
-  useNavigate,
-  useParams,
-} from "react-router-dom";
+import { useEffect, useState, type ChangeEvent, type SubmitEvent } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -21,20 +12,16 @@ import { useUpdateProjectService } from "../hooks/useUpdateProjectService";
 import type { ProjectServiceRequest } from "../types/project-service.types";
 
 export function EditProjectService() {
-  const {
-    projectId: projectIdParam,
-    projectServiceId: projectServiceIdParam,
-  } = useParams<{
-    projectId: string;
-    projectServiceId: string;
-  }>();
+  const { projectId: projectIdParam, projectServiceId: projectServiceIdParam } =
+    useParams<{
+      projectId: string;
+      projectServiceId: string;
+    }>();
 
   const navigate = useNavigate();
 
   const projectId = Number(projectIdParam);
-  const projectServiceId = Number(
-    projectServiceIdParam,
-  );
+  const projectServiceId = Number(projectServiceIdParam);
 
   const {
     data: projectService,
@@ -52,40 +39,32 @@ export function EditProjectService() {
     size: 100,
   });
 
-  const updateProjectService =
-    useUpdateProjectService();
+  const updateProjectService = useUpdateProjectService();
 
-  const [formData, setFormData] =
-    useState<ProjectServiceRequest>({
-      projectId,
-      serviceCatalogueId: 0,
-      quantity: 1,
-      agreedPrice: 0,
-      discount: undefined,
-      remarks: "",
-    });
+  const [formData, setFormData] = useState<ProjectServiceRequest>({
+    projectId,
+    serviceCatalogueId: 0,
+    quantity: 1,
+    agreedPrice: 0,
+    discount: undefined,
+    remarks: "",
+  });
 
   useEffect(() => {
     if (projectService) {
       setFormData({
         projectId: projectService.projectId,
-        serviceCatalogueId:
-          projectService.serviceCatalogueId,
+        serviceCatalogueId: projectService.serviceCatalogueId,
         quantity: projectService.quantity,
-        agreedPrice:
-          projectService.agreedPrice,
-        discount:
-          projectService.discount ?? undefined,
-        remarks:
-          projectService.remarks ?? "",
+        agreedPrice: projectService.agreedPrice,
+        discount: projectService.discount ?? undefined,
+        remarks: projectService.remarks ?? "",
       });
     }
   }, [projectService]);
 
   const handleChange = (
-    event: ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement
-    >,
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = event.target;
 
@@ -93,9 +72,7 @@ export function EditProjectService() {
       ...current,
 
       [name]:
-        name === "quantity" ||
-        name === "agreedPrice" ||
-        name === "discount"
+        name === "quantity" || name === "agreedPrice" || name === "discount"
           ? value === ""
             ? undefined
             : Number(value)
@@ -103,30 +80,21 @@ export function EditProjectService() {
     }));
   };
 
-  const handleServiceChange = (
-    event: ChangeEvent<HTMLSelectElement>,
-  ) => {
-    const serviceCatalogueId =
-      Number(event.target.value);
+  const handleServiceChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    const serviceCatalogueId = Number(event.target.value);
 
-    const selectedService =
-      serviceData?.content.find(
-        (service) =>
-          service.id === serviceCatalogueId,
-      );
+    const selectedService = serviceData?.content.find(
+      (service) => service.id === serviceCatalogueId,
+    );
 
     setFormData((current) => ({
       ...current,
       serviceCatalogueId,
-      agreedPrice:
-        selectedService?.basePrice ??
-        current.agreedPrice,
+      agreedPrice: selectedService?.basePrice ?? current.agreedPrice,
     }));
   };
 
-  const handleSubmit = (
-    event: SubmitEvent,
-  ) => {
+  const handleSubmit = (event: SubmitEvent) => {
     event.preventDefault();
 
     updateProjectService.mutate(
@@ -136,18 +104,13 @@ export function EditProjectService() {
       },
       {
         onSuccess: () => {
-          navigate(
-            `/projects/${projectId}`,
-          );
+          navigate(`/projects/${projectId}`);
         },
       },
     );
   };
 
-  if (
-    projectServiceLoading ||
-    servicesLoading
-  ) {
+  if (projectServiceLoading || servicesLoading) {
     return (
       <div className="rounded-lg border border-clientdesk-light bg-white p-8 text-center">
         <p className="text-sm text-clientdesk-gray">
@@ -157,24 +120,16 @@ export function EditProjectService() {
     );
   }
 
-  if (
-    projectServiceError ||
-    !projectService ||
-    servicesError
-  ) {
+  if (projectServiceError || !projectService || servicesError) {
     return (
       <div className="space-y-4">
         <Button
-          asChild
           variant="ghost"
           className="-ml-2"
+          render={<Link to={`/projects/${projectId}`} />}
         >
-          <Link
-            to={`/projects/${projectId}`}
-          >
-            <ArrowLeft className="mr-2 size-4" />
-            Back to Project
-          </Link>
+          <ArrowLeft className="mr-2 size-4" />
+          Back to Project
         </Button>
 
         <div className="rounded-lg border border-red-200 bg-white p-8 text-center">
@@ -183,9 +138,7 @@ export function EditProjectService() {
           </p>
 
           {error instanceof Error && (
-            <p className="mt-1 text-xs text-clientdesk-gray">
-              {error.message}
-            </p>
+            <p className="mt-1 text-xs text-clientdesk-gray">{error.message}</p>
           )}
         </div>
       </div>
@@ -197,16 +150,12 @@ export function EditProjectService() {
       {/* Header */}
       <div>
         <Button
-          asChild
           variant="ghost"
           className="mb-3 -ml-2"
+          render={<Link to={`/projects/${projectId}`} />}
         >
-          <Link
-            to={`/projects/${projectId}`}
-          >
-            <ArrowLeft className="mr-2 size-4" />
-            Back to Project
-          </Link>
+          <ArrowLeft className="mr-2 size-4" />
+          Back to Project
         </Button>
 
         <h1 className="text-3xl font-semibold tracking-tight">
@@ -214,57 +163,38 @@ export function EditProjectService() {
         </h1>
 
         <p className="mt-1 text-sm text-clientdesk-gray">
-          Update the service assigned to this
-          project.
+          Update the service assigned to this project.
         </p>
       </div>
 
       {/* Form */}
       <div className="rounded-lg border border-clientdesk-light bg-white p-6">
-        <form
-          onSubmit={handleSubmit}
-          className="space-y-6"
-        >
+        <form onSubmit={handleSubmit} className="space-y-6">
           {/* Service */}
           <div className="space-y-2">
-            <label
-              htmlFor="serviceCatalogueId"
-              className="text-sm font-medium"
-            >
+            <label htmlFor="serviceCatalogueId" className="text-sm font-medium">
               Service
             </label>
 
             <select
               id="serviceCatalogueId"
               name="serviceCatalogueId"
-              value={
-                formData.serviceCatalogueId
-              }
+              value={formData.serviceCatalogueId}
               onChange={handleServiceChange}
               required
               className="w-full rounded-md border border-clientdesk-light bg-white px-3 py-2 text-sm outline-none transition focus:border-clientdesk-gray focus:ring-1 focus:ring-clientdesk-gray"
             >
-              <option value="">
-                Select a service
-              </option>
+              <option value="">Select a service</option>
 
-              {serviceData?.content.map(
-                (service) => (
-                  <option
-                    key={service.id}
-                    value={service.id}
-                  >
-                    {service.serviceName} — ₹
-                    {service.basePrice.toLocaleString(
-                      "en-IN",
-                      {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2,
-                      },
-                    )}
-                  </option>
-                ),
-              )}
+              {serviceData?.content.map((service) => (
+                <option key={service.id} value={service.id}>
+                  {service.serviceName} — ₹
+                  {service.basePrice.toLocaleString("en-IN", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
+                </option>
+              ))}
             </select>
           </div>
 
@@ -272,10 +202,7 @@ export function EditProjectService() {
           <div className="grid gap-6 sm:grid-cols-2">
             {/* Quantity */}
             <div className="space-y-2">
-              <label
-                htmlFor="quantity"
-                className="text-sm font-medium"
-              >
+              <label htmlFor="quantity" className="text-sm font-medium">
                 Quantity
               </label>
 
@@ -294,10 +221,7 @@ export function EditProjectService() {
 
             {/* Agreed Price */}
             <div className="space-y-2">
-              <label
-                htmlFor="agreedPrice"
-                className="text-sm font-medium"
-              >
+              <label htmlFor="agreedPrice" className="text-sm font-medium">
                 Agreed Price
               </label>
 
@@ -312,9 +236,7 @@ export function EditProjectService() {
                   type="number"
                   min="0"
                   step="0.01"
-                  value={
-                    formData.agreedPrice
-                  }
+                  value={formData.agreedPrice}
                   onChange={handleChange}
                   required
                   className="w-full rounded-md border border-clientdesk-light bg-white py-2 pl-8 pr-3 text-sm outline-none transition focus:border-clientdesk-gray focus:ring-1 focus:ring-clientdesk-gray"
@@ -325,10 +247,7 @@ export function EditProjectService() {
 
           {/* Discount */}
           <div className="space-y-2">
-            <label
-              htmlFor="discount"
-              className="text-sm font-medium"
-            >
+            <label htmlFor="discount" className="text-sm font-medium">
               Discount
             </label>
 
@@ -343,9 +262,7 @@ export function EditProjectService() {
                 type="number"
                 min="0"
                 step="0.01"
-                value={
-                  formData.discount ?? ""
-                }
+                value={formData.discount ?? ""}
                 onChange={handleChange}
                 placeholder="0.00"
                 className="w-full rounded-md border border-clientdesk-light bg-white py-2 pl-8 pr-3 text-sm outline-none transition focus:border-clientdesk-gray focus:ring-1 focus:ring-clientdesk-gray"
@@ -355,19 +272,14 @@ export function EditProjectService() {
 
           {/* Remarks */}
           <div className="space-y-2">
-            <label
-              htmlFor="remarks"
-              className="text-sm font-medium"
-            >
+            <label htmlFor="remarks" className="text-sm font-medium">
               Remarks
             </label>
 
             <textarea
               id="remarks"
               name="remarks"
-              value={
-                formData.remarks ?? ""
-              }
+              value={formData.remarks ?? ""}
               onChange={handleChange}
               rows={4}
               placeholder="Add any remarks about this service..."
@@ -382,13 +294,9 @@ export function EditProjectService() {
                 Failed to update project service.
               </p>
 
-              {updateProjectService.error instanceof
-                Error && (
+              {updateProjectService.error instanceof Error && (
                 <p className="mt-1 text-xs text-clientdesk-gray">
-                  {
-                    updateProjectService
-                      .error.message
-                  }
+                  {updateProjectService.error.message}
                 </p>
               )}
             </div>
@@ -397,17 +305,11 @@ export function EditProjectService() {
           {/* Actions */}
           <div className="flex items-center justify-end gap-3 border-t border-clientdesk-light pt-6">
             <Button
-              asChild
               variant="outline"
-              disabled={
-                updateProjectService.isPending
-              }
+              disabled={updateProjectService.isPending}
+              render={<Link to={`/projects/${projectId}`} />}
             >
-              <Link
-                to={`/projects/${projectId}`}
-              >
-                Cancel
-              </Link>
+              Cancel
             </Button>
 
             <Button
@@ -418,9 +320,7 @@ export function EditProjectService() {
                 !formData.serviceCatalogueId
               }
             >
-              {updateProjectService.isPending
-                ? "Saving..."
-                : "Save Changes"}
+              {updateProjectService.isPending ? "Saving..." : "Save Changes"}
             </Button>
           </div>
         </form>

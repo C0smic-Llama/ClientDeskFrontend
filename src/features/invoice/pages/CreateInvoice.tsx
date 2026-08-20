@@ -81,8 +81,8 @@ export function CreateInvoice() {
             No project was selected.
           </p>
 
-          <Button asChild className="mt-5">
-            <Link to="/projects">Back to Projects</Link>
+          <Button className="mt-5" render={<Link to="/projects" />}>
+            Back to Projects
           </Button>
         </div>
       </div>
@@ -102,8 +102,8 @@ export function CreateInvoice() {
       <div className="rounded-lg border border-red-200 bg-white p-8 text-center">
         <p className="text-sm text-clientdesk-red">Failed to load project.</p>
 
-        <Button asChild className="mt-5">
-          <Link to="/projects">Back to Projects</Link>
+        <Button className="mt-5" render={<Link to="/projects" />}>
+          Back to Projects
         </Button>
       </div>
     );
@@ -113,11 +113,13 @@ export function CreateInvoice() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <Button asChild variant="ghost" className="-ml-2">
-          <Link to="/projects">
-            <ArrowLeft className="mr-2 size-4" />
-            Back to Projects
-          </Link>
+        <Button
+          variant="ghost"
+          className="-ml-2"
+          render={<Link to="/projects" />}
+        >
+          <ArrowLeft className="mr-2 size-4" />
+          Back to Projects
         </Button>
 
         <div className="mt-4">
@@ -236,8 +238,12 @@ export function CreateInvoice() {
 
           {/* Actions */}
           <div className="flex justify-end gap-3">
-            <Button type="button" variant="outline" asChild>
-              <Link to="/projects">Cancel</Link>
+            <Button
+              type="button"
+              variant="outline"
+              render={<Link to="/projects" />}
+            >
+              Cancel
             </Button>
 
             <Button type="submit" disabled={createInvoice.isPending}>

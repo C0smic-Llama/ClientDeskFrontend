@@ -13,12 +13,7 @@ export function EditInvoice() {
 
   const invoiceId = Number(id);
 
-  const {
-    data: invoice,
-    isLoading,
-    isError,
-    error,
-  } = useInvoice(invoiceId);
+  const { data: invoice, isLoading, isError, error } = useInvoice(invoiceId);
 
   const updateInvoice = useUpdateInvoice();
 
@@ -33,9 +28,7 @@ export function EditInvoice() {
     }
   }, [invoice]);
 
-  const handleSubmit = (
-    event: React.FormEvent<HTMLFormElement>,
-  ) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     updateInvoice.mutate(
@@ -59,9 +52,7 @@ export function EditInvoice() {
   if (isLoading) {
     return (
       <div className="rounded-lg border border-clientdesk-light bg-white p-8 text-center">
-        <p className="text-sm text-clientdesk-gray">
-          Loading invoice...
-        </p>
+        <p className="text-sm text-clientdesk-gray">Loading invoice...</p>
       </div>
     );
   }
@@ -69,20 +60,14 @@ export function EditInvoice() {
   if (isError || !invoice) {
     return (
       <div className="rounded-lg border border-red-200 bg-white p-8 text-center">
-        <p className="text-sm text-clientdesk-red">
-          Failed to load invoice.
-        </p>
+        <p className="text-sm text-clientdesk-red">Failed to load invoice.</p>
 
         {error instanceof Error && (
-          <p className="mt-1 text-xs text-clientdesk-gray">
-            {error.message}
-          </p>
+          <p className="mt-1 text-xs text-clientdesk-gray">{error.message}</p>
         )}
 
-        <Button asChild className="mt-5">
-          <Link to="/invoices">
-            Back to Invoices
-          </Link>
+        <Button className="mt-5" render={<Link to="/invoices" />}>
+          Back to Invoices
         </Button>
       </div>
     );
@@ -93,14 +78,12 @@ export function EditInvoice() {
       {/* Header */}
       <div>
         <Button
-          asChild
           variant="ghost"
           className="-ml-2"
+          render={<Link to={`/invoices/${invoiceId}`} />}
         >
-          <Link to={`/invoices/${invoiceId}`}>
-            <ArrowLeft className="mr-2 size-4" />
-            Back to Invoice
-          </Link>
+          <ArrowLeft className="mr-2 size-4" />
+          Back to Invoice
         </Button>
 
         <div className="mt-4">
@@ -118,59 +101,37 @@ export function EditInvoice() {
       <div className="rounded-lg border border-clientdesk-light bg-white p-6">
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
-            <p className="text-xs text-clientdesk-gray">
-              Invoice Number
-            </p>
+            <p className="text-xs text-clientdesk-gray">Invoice Number</p>
 
-            <p className="mt-1 text-sm font-medium">
-              {invoice.invoiceNumber}
-            </p>
+            <p className="mt-1 text-sm font-medium">{invoice.invoiceNumber}</p>
           </div>
 
           <div>
-            <p className="text-xs text-clientdesk-gray">
-              Project
-            </p>
+            <p className="text-xs text-clientdesk-gray">Project</p>
 
-            <p className="mt-1 text-sm font-medium">
-              {invoice.projectName}
-            </p>
+            <p className="mt-1 text-sm font-medium">{invoice.projectName}</p>
           </div>
 
           <div>
-            <p className="text-xs text-clientdesk-gray">
-              Client
-            </p>
+            <p className="text-xs text-clientdesk-gray">Client</p>
 
-            <p className="mt-1 text-sm font-medium">
-              {invoice.clientName}
-            </p>
+            <p className="mt-1 text-sm font-medium">{invoice.clientName}</p>
           </div>
 
           <div>
-            <p className="text-xs text-clientdesk-gray">
-              Invoice Date
-            </p>
+            <p className="text-xs text-clientdesk-gray">Invoice Date</p>
 
-            <p className="mt-1 text-sm">
-              {invoice.invoiceDate}
-            </p>
+            <p className="mt-1 text-sm">{invoice.invoiceDate}</p>
           </div>
         </div>
       </div>
 
       {/* Form */}
       <div className="rounded-lg border border-clientdesk-light bg-white p-6">
-        <form
-          onSubmit={handleSubmit}
-          className="max-w-2xl space-y-6"
-        >
+        <form onSubmit={handleSubmit} className="max-w-2xl space-y-6">
           {/* Due Date */}
           <div className="space-y-2">
-            <label
-              htmlFor="dueDate"
-              className="text-sm font-medium"
-            >
+            <label htmlFor="dueDate" className="text-sm font-medium">
               Due Date
             </label>
 
@@ -178,9 +139,7 @@ export function EditInvoice() {
               id="dueDate"
               type="date"
               value={dueDate}
-              onChange={(event) =>
-                setDueDate(event.target.value)
-              }
+              onChange={(event) => setDueDate(event.target.value)}
               required
               className="w-full rounded-md border border-clientdesk-light bg-white px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-clientdesk-blue"
             />
@@ -188,10 +147,7 @@ export function EditInvoice() {
 
           {/* Discount */}
           <div className="space-y-2">
-            <label
-              htmlFor="discount"
-              className="text-sm font-medium"
-            >
+            <label htmlFor="discount" className="text-sm font-medium">
               Discount
             </label>
 
@@ -201,28 +157,21 @@ export function EditInvoice() {
               min="0"
               step="0.01"
               value={discount}
-              onChange={(event) =>
-                setDiscount(event.target.value)
-              }
+              onChange={(event) => setDiscount(event.target.value)}
               className="w-full rounded-md border border-clientdesk-light bg-white px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-clientdesk-blue"
             />
           </div>
 
           {/* Notes */}
           <div className="space-y-2">
-            <label
-              htmlFor="notes"
-              className="text-sm font-medium"
-            >
+            <label htmlFor="notes" className="text-sm font-medium">
               Notes
             </label>
 
             <textarea
               id="notes"
               value={notes}
-              onChange={(event) =>
-                setNotes(event.target.value)
-              }
+              onChange={(event) => setNotes(event.target.value)}
               rows={4}
               maxLength={500}
               placeholder="Optional invoice notes..."
@@ -250,20 +199,13 @@ export function EditInvoice() {
             <Button
               type="button"
               variant="outline"
-              asChild
+              render={<Link to={`/invoices/${invoiceId}`} />}
             >
-              <Link to={`/invoices/${invoiceId}`}>
-                Cancel
-              </Link>
+              Cancel
             </Button>
 
-            <Button
-              type="submit"
-              disabled={updateInvoice.isPending}
-            >
-              {updateInvoice.isPending
-                ? "Saving..."
-                : "Save Changes"}
+            <Button type="submit" disabled={updateInvoice.isPending}>
+              {updateInvoice.isPending ? "Saving..." : "Save Changes"}
             </Button>
           </div>
         </form>

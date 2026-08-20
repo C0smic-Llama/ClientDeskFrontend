@@ -1,9 +1,4 @@
-import {
-  useEffect,
-  useState,
-  type ChangeEvent,
-  type SubmitEvent,
-} from "react";
+import { useEffect, useState, type ChangeEvent, type SubmitEvent } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 
@@ -12,10 +7,7 @@ import { Button } from "@/components/ui/button";
 import { useService } from "../hooks/useService";
 import { useUpdateService } from "../hooks/useUpdateService";
 
-import type {
-  ServiceCategory,
-  ServiceRequest,
-} from "../types/service.types";
+import type { ServiceCategory, ServiceRequest } from "../types/service.types";
 
 const categories: {
   value: ServiceCategory;
@@ -61,22 +53,16 @@ export function EditService() {
 
   const serviceId = Number(id);
 
-  const {
-    data: service,
-    isLoading,
-    isError,
-    error,
-  } = useService(serviceId);
+  const { data: service, isLoading, isError, error } = useService(serviceId);
 
   const updateService = useUpdateService();
 
-  const [formData, setFormData] =
-    useState<ServiceRequest>({
-      serviceName: "",
-      description: "",
-      category: "OTHER",
-      basePrice: 0,
-    });
+  const [formData, setFormData] = useState<ServiceRequest>({
+    serviceName: "",
+    description: "",
+    category: "OTHER",
+    basePrice: 0,
+  });
 
   useEffect(() => {
     if (service) {
@@ -98,16 +84,11 @@ export function EditService() {
 
     setFormData((current) => ({
       ...current,
-      [name]:
-        name === "basePrice"
-          ? Number(value)
-          : value,
+      [name]: name === "basePrice" ? Number(value) : value,
     }));
   };
 
-  const handleSubmit = (
-    event: SubmitEvent,
-  ) => {
+  const handleSubmit = (event: SubmitEvent) => {
     event.preventDefault();
 
     updateService.mutate(
@@ -126,9 +107,7 @@ export function EditService() {
   if (isLoading) {
     return (
       <div className="rounded-lg border border-clientdesk-light bg-white p-8 text-center">
-        <p className="text-sm text-clientdesk-gray">
-          Loading service...
-        </p>
+        <p className="text-sm text-clientdesk-gray">Loading service...</p>
       </div>
     );
   }
@@ -137,25 +116,19 @@ export function EditService() {
     return (
       <div className="space-y-4">
         <Button
-          asChild
           variant="ghost"
           className="-ml-2"
+          render={<Link to="/services" />}
         >
-          <Link to="/services">
-            <ArrowLeft className="mr-2 size-4" />
-            Back to Services
-          </Link>
+          <ArrowLeft className="mr-2 size-4" />
+          Back to Services
         </Button>
 
         <div className="rounded-lg border border-red-200 bg-white p-8 text-center">
-          <p className="text-sm text-clientdesk-red">
-            Failed to load service.
-          </p>
+          <p className="text-sm text-clientdesk-red">Failed to load service.</p>
 
           {error instanceof Error && (
-            <p className="mt-1 text-xs text-clientdesk-gray">
-              {error.message}
-            </p>
+            <p className="mt-1 text-xs text-clientdesk-gray">{error.message}</p>
           )}
         </div>
       </div>
@@ -167,19 +140,15 @@ export function EditService() {
       {/* Header */}
       <div>
         <Button
-          asChild
           variant="ghost"
           className="mb-3 -ml-2"
+          render={<Link to="/services" />}
         >
-          <Link to="/services">
-            <ArrowLeft className="mr-2 size-4" />
-            Back to Services
-          </Link>
+          <ArrowLeft className="mr-2 size-4" />
+          Back to Services
         </Button>
 
-        <h1 className="text-3xl font-semibold tracking-tight">
-          Edit Service
-        </h1>
+        <h1 className="text-3xl font-semibold tracking-tight">Edit Service</h1>
 
         <p className="mt-1 text-sm text-clientdesk-gray">
           Update the service information.
@@ -188,16 +157,10 @@ export function EditService() {
 
       {/* Form */}
       <div className="rounded-lg border border-clientdesk-light bg-white p-6">
-        <form
-          onSubmit={handleSubmit}
-          className="space-y-6"
-        >
+        <form onSubmit={handleSubmit} className="space-y-6">
           {/* Service Name */}
           <div className="space-y-2">
-            <label
-              htmlFor="serviceName"
-              className="text-sm font-medium"
-            >
+            <label htmlFor="serviceName" className="text-sm font-medium">
               Service Name
             </label>
 
@@ -219,10 +182,7 @@ export function EditService() {
 
           {/* Description */}
           <div className="space-y-2">
-            <label
-              htmlFor="description"
-              className="text-sm font-medium"
-            >
+            <label htmlFor="description" className="text-sm font-medium">
               Description
             </label>
 
@@ -246,10 +206,7 @@ export function EditService() {
           <div className="grid gap-6 sm:grid-cols-2">
             {/* Category */}
             <div className="space-y-2">
-              <label
-                htmlFor="category"
-                className="text-sm font-medium"
-              >
+              <label htmlFor="category" className="text-sm font-medium">
                 Category
               </label>
 
@@ -262,10 +219,7 @@ export function EditService() {
                 className="w-full rounded-md border border-clientdesk-light bg-white px-3 py-2 text-sm outline-none transition focus:border-clientdesk-gray focus:ring-1 focus:ring-clientdesk-gray"
               >
                 {categories.map((item) => (
-                  <option
-                    key={item.value}
-                    value={item.value}
-                  >
+                  <option key={item.value} value={item.value}>
                     {item.label}
                   </option>
                 ))}
@@ -274,10 +228,7 @@ export function EditService() {
 
             {/* Base Price */}
             <div className="space-y-2">
-              <label
-                htmlFor="basePrice"
-                className="text-sm font-medium"
-              >
+              <label htmlFor="basePrice" className="text-sm font-medium">
                 Base Price
               </label>
 
@@ -323,22 +274,15 @@ export function EditService() {
           {/* Actions */}
           <div className="flex items-center justify-end gap-3 border-t border-clientdesk-light pt-6">
             <Button
-              asChild
               variant="outline"
               disabled={updateService.isPending}
+              render={<Link to="/services" />}
             >
-              <Link to="/services">
-                Cancel
-              </Link>
+              Cancel
             </Button>
 
-            <Button
-              type="submit"
-              disabled={updateService.isPending}
-            >
-              {updateService.isPending
-                ? "Saving..."
-                : "Save Changes"}
+            <Button type="submit" disabled={updateService.isPending}>
+              {updateService.isPending ? "Saving..." : "Save Changes"}
             </Button>
           </div>
         </form>

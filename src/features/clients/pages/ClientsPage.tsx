@@ -199,17 +199,17 @@ export function ClientsPage() {
                       <div className="flex items-center justify-end gap-1">
                         {/* Edit */}
                         <Button
-                          asChild
                           variant="ghost"
                           size="icon"
                           title="Edit client"
+                          render={
+                            <Link
+                              to={`/clients/${client.id}/edit`}
+                              aria-label={`Edit ${client.companyName}`}
+                            />
+                          }
                         >
-                          <Link
-                            to={`/clients/${client.id}/edit`}
-                            aria-label={`Edit ${client.companyName}`}
-                          >
-                            <Edit className="size-4" />
-                          </Link>
+                          <Edit className="size-4" />
                         </Button>
 
                         {/* Delete */}

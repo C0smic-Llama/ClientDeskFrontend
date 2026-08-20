@@ -38,19 +38,12 @@ export function ProjectDetails() {
 
   const projectId = Number(id);
 
-  const {
-    data: project,
-    isLoading,
-    isError,
-    error,
-  } = useProject(projectId);
+  const { data: project, isLoading, isError, error } = useProject(projectId);
 
   if (isLoading) {
     return (
       <div className="rounded-lg border border-clientdesk-light bg-white p-8 text-center">
-        <p className="text-sm text-clientdesk-gray">
-          Loading project...
-        </p>
+        <p className="text-sm text-clientdesk-gray">Loading project...</p>
       </div>
     );
   }
@@ -59,25 +52,19 @@ export function ProjectDetails() {
     return (
       <div className="space-y-4">
         <Button
-          asChild
           variant="ghost"
           className="-ml-2"
+          render={<Link to="/projects" />}
         >
-          <Link to="/projects">
-            <ArrowLeft className="mr-2 size-4" />
-            Back to Projects
-          </Link>
+          <ArrowLeft className="mr-2 size-4" />
+          Back to Projects
         </Button>
 
         <div className="rounded-lg border border-red-200 bg-white p-8 text-center">
-          <p className="text-sm text-clientdesk-red">
-            Failed to load project.
-          </p>
+          <p className="text-sm text-clientdesk-red">Failed to load project.</p>
 
           {error instanceof Error && (
-            <p className="mt-1 text-xs text-clientdesk-gray">
-              {error.message}
-            </p>
+            <p className="mt-1 text-xs text-clientdesk-gray">{error.message}</p>
           )}
         </div>
       </div>
@@ -89,14 +76,12 @@ export function ProjectDetails() {
       {/* Header */}
       <div>
         <Button
-          asChild
           variant="ghost"
           className="mb-3 -ml-2"
+          render={<Link to="/projects" />}
         >
-          <Link to="/projects">
-            <ArrowLeft className="mr-2 size-4" />
-            Back to Projects
-          </Link>
+          <ArrowLeft className="mr-2 size-4" />
+          Back to Projects
         </Button>
 
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
@@ -110,13 +95,9 @@ export function ProjectDetails() {
             </p>
           </div>
 
-          <Button asChild>
-            <Link
-              to={`/projects/${project.id}/edit`}
-            >
-              <Edit className="mr-2 size-4" />
-              Edit Project
-            </Link>
+          <Button render={<Link to={`/projects/${project.id}/edit`} />}>
+            <Edit className="mr-2 size-4" />
+            Edit Project
           </Button>
         </div>
       </div>
@@ -147,9 +128,7 @@ export function ProjectDetails() {
               Start Date
             </p>
 
-            <p className="mt-2 text-sm font-medium">
-              {project.startDate}
-            </p>
+            <p className="mt-2 text-sm font-medium">{project.startDate}</p>
           </div>
 
           {/* Deadline */}
@@ -158,9 +137,7 @@ export function ProjectDetails() {
               Deadline
             </p>
 
-            <p className="mt-2 text-sm font-medium">
-              {project.deadline}
-            </p>
+            <p className="mt-2 text-sm font-medium">{project.deadline}</p>
           </div>
 
           {/* Quota */}
@@ -171,13 +148,10 @@ export function ProjectDetails() {
 
             <p className="mt-2 text-sm font-medium">
               ₹
-              {project.quota.toLocaleString(
-                "en-IN",
-                {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                },
-              )}
+              {project.quota.toLocaleString("en-IN", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
             </p>
           </div>
         </div>
@@ -185,9 +159,7 @@ export function ProjectDetails() {
 
       {/* Description */}
       <div className="rounded-lg border border-clientdesk-light bg-white p-6">
-        <h2 className="text-lg font-semibold">
-          Description
-        </h2>
+        <h2 className="text-lg font-semibold">Description</h2>
 
         <p className="mt-3 whitespace-pre-wrap text-sm leading-6 text-clientdesk-gray">
           {project.description}
@@ -195,9 +167,7 @@ export function ProjectDetails() {
 
         {project.notes && (
           <div className="mt-6 border-t border-clientdesk-light pt-5">
-            <h3 className="text-sm font-semibold">
-              Notes
-            </h3>
+            <h3 className="text-sm font-semibold">Notes</h3>
 
             <p className="mt-2 whitespace-pre-wrap text-sm leading-6 text-clientdesk-gray">
               {project.notes}
@@ -210,9 +180,7 @@ export function ProjectDetails() {
       <div className="rounded-lg border border-clientdesk-light bg-white p-6">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-lg font-semibold">
-              Assigned Staff
-            </h2>
+            <h2 className="text-lg font-semibold">Assigned Staff</h2>
 
             <p className="mt-1 text-sm text-clientdesk-gray">
               Staff members working on this project.
@@ -230,31 +198,24 @@ export function ProjectDetails() {
           </p>
         ) : (
           <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {project.assignedUsers.map(
-              (user) => (
-                <div
-                  key={user.id}
-                  className="rounded-md border border-clientdesk-light p-4"
-                >
-                  <p className="text-sm font-medium">
-                    {user.firstName}{" "}
-                    {user.lastName}
-                  </p>
+            {project.assignedUsers.map((user) => (
+              <div
+                key={user.id}
+                className="rounded-md border border-clientdesk-light p-4"
+              >
+                <p className="text-sm font-medium">
+                  {user.firstName} {user.lastName}
+                </p>
 
-                  <p className="mt-1 text-xs text-clientdesk-gray">
-                    {user.role}
-                  </p>
-                </div>
-              ),
-            )}
+                <p className="mt-1 text-xs text-clientdesk-gray">{user.role}</p>
+              </div>
+            ))}
           </div>
         )}
       </div>
 
       {/* Project Services */}
-      <ProjectServicesList
-        projectId={project.id}
-      />
+      <ProjectServicesList projectId={project.id} />
     </div>
   );
 }

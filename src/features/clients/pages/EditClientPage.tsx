@@ -14,27 +14,18 @@ export function EditClientPage() {
 
   const id = Number(clientId);
 
-  const {
-    data: client,
-    isLoading,
-    isError,
-    error,
-  } = useClient(id);
+  const { data: client, isLoading, isError, error } = useClient(id);
 
   const updateClientMutation = useUpdateClient();
 
   if (Number.isNaN(id)) {
     return (
       <div className="space-y-4">
-        <h1 className="text-2xl font-semibold">
-          Invalid Client
-        </h1>
+        <h1 className="text-2xl font-semibold">Invalid Client</h1>
 
-        <Button asChild variant="outline">
-          <Link to="/clients">
-            <ArrowLeft className="mr-2 size-4" />
-            Back to Clients
-          </Link>
+        <Button variant="outline" render={<Link to="/clients" />}>
+          <ArrowLeft className="mr-2 size-4" />
+          Back to Clients
         </Button>
       </div>
     );
@@ -60,9 +51,7 @@ export function EditClientPage() {
   if (isError || !client) {
     return (
       <div className="space-y-4">
-        <h1 className="text-2xl font-semibold">
-          Unable to load client
-        </h1>
+        <h1 className="text-2xl font-semibold">Unable to load client</h1>
 
         <p className="text-sm text-clientdesk-gray">
           {error instanceof Error
@@ -70,11 +59,9 @@ export function EditClientPage() {
             : "The requested client could not be found."}
         </p>
 
-        <Button asChild variant="outline">
-          <Link to="/clients">
-            <ArrowLeft className="mr-2 size-4" />
-            Back to Clients
-          </Link>
+        <Button variant="outline" render={<Link to="/clients" />}>
+          <ArrowLeft className="mr-2 size-4" />
+          Back to Clients
         </Button>
       </div>
     );
@@ -98,21 +85,17 @@ export function EditClientPage() {
       {/* Header */}
       <div className="space-y-3">
         <Button
-          asChild
           variant="ghost"
           size="sm"
           className="-ml-2"
+          render={<Link to={`/clients/${id}`} />}
         >
-          <Link to={`/clients/${id}`}>
-            <ArrowLeft className="mr-2 size-4" />
-            Back to Client
-          </Link>
+          <ArrowLeft className="mr-2 size-4" />
+          Back to Client
         </Button>
 
         <div>
-          <h1 className="text-3xl font-semibold tracking-tight">
-            Edit Client
-          </h1>
+          <h1 className="text-3xl font-semibold tracking-tight">Edit Client</h1>
 
           <p className="mt-1 text-sm text-clientdesk-gray">
             Update the information for{" "}
@@ -142,10 +125,7 @@ export function EditClientPage() {
 
         {/* API Error */}
         {updateClientMutation.isError && (
-          <p
-            role="alert"
-            className="mt-4 text-sm text-clientdesk-red"
-          >
+          <p role="alert" className="mt-4 text-sm text-clientdesk-red">
             Failed to update client. Please try again.
           </p>
         )}
